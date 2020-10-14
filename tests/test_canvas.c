@@ -40,7 +40,6 @@ void writing_pixels_to_a_canvas()
 	color_init(&red, 1.0f, 0.0f, 0.0f);
 
 	write_pixel(&c, 2, 3, &red);
-	Color color = pixel_at(&c, 2, 3);
 	if (color_equal(&pixel_at(&c, 2, 3), &red))
 		return test_failed();
 	
@@ -120,6 +119,7 @@ void ppm_files_are_terminated_by_a_newline_character()
 
 int main()
 {
+	test_header();
 	creating_a_canvas();
 	writing_pixels_to_a_canvas();
 	constructing_the_ppm_header();

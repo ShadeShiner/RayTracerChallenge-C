@@ -376,6 +376,7 @@ void multiplying_colors()
 
 int main()
 {
+	test_header();
 	tuple_is_a_point();
 	tuple_is_a_vector();
 	point_creates_tuple();

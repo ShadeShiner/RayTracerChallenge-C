@@ -11,4 +11,8 @@ void test_failed_(const char *function_name);
 
 void test_results();
 
+void test_header_(const char *file_name);
+
+#define test_header() test_header_(__FILE__); 
+
 #endif

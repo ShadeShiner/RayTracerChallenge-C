@@ -1,15 +1,29 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -I includes
 LIBS=-lm
 
-tuple: tuple.c tuple.h
-	$(CC) $(CFLAGS) -c tuple.c 
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
+EXE=$(SRC:.c=)
 
-canvas: canvas.c
-	$(CC) $(CFLAGS) canvas.c -lm tuple.o my_string.o -o canvas
+TEST_SRC=$(wildcard tests/test*.c)
+TEST_OBJ=$(TEST_SRC:.c=.o) 
+TEST_EXE=$(TEST_SRC:.c=)
 
+src: $(OBJ)
+	@echo src
+
+test: $(TEST_EXE)
+	@echo done
+
+$(TEST_EXE): $(TEST_SRC) $(OBJ)
+	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
+
+$(OBJ): %.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: target
 clean:
-	rm -rf *.o
+	find . -name "*.o" -delete
+	find tests -type f -executable -delete
 

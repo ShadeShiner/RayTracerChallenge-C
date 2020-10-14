@@ -560,6 +560,7 @@ void multiplying_a_product_by_its_inverse()
 
 int main()
 {
+	test_header();
 	constructing_and_inspecting_a_4x4_matrix();
 	a_2x2_matrix_ought_to_be_representable();
 	a_3x3_matrix_ought_to_be_representable();

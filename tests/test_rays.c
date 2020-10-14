@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <test_librar.h>
+#include <test_library.h>
 #include "tuple.h"
 #include "ray.h"
 
@@ -56,6 +56,7 @@ void computing_a_point_from_a_distance()
 
 int main()
 {
+	test_header();
 	creating_and_querying_a_ray();
 	computing_a_point_from_a_distance();
 	test_results();
