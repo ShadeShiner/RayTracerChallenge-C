@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "tuple.h"
 #include "matrix.h"
 
@@ -163,5 +164,62 @@ int matrix_inverse(Matrix *out, Matrix *in)
 	}
 
 	return 0;
+}
+
+/* Transformations */
+
+void matrix_translation(Matrix *out, float x, float y, float z)
+{
+	matrix_identity(out);
+	matrix_set(out, 0, 3, x);
+	matrix_set(out, 1, 3, y);
+	matrix_set(out, 2, 3, z);
+}
+
+void matrix_scaling(Matrix *out, float x, float y, float z)
+{
+	matrix_identity(out);
+	matrix_set(out, 0, 0, x);
+	matrix_set(out, 1, 1, y);
+	matrix_set(out, 2, 2, z);
+}
+
+void matrix_rotation_x(Matrix *out, float radians)
+{
+	matrix_identity(out);
+	matrix_set(out, 1, 1, cosf(radians));
+	matrix_set(out, 1, 2, -sinf(radians));
+	matrix_set(out, 2, 1, sinf(radians));
+	matrix_set(out, 2, 2, cosf(radians));
+}
+
+void matrix_rotation_y(Matrix *out, float radians)
+{
+	matrix_identity(out);
+	matrix_set(out, 0, 0, cosf(radians));
+	matrix_set(out, 0, 2, sinf(radians));
+	matrix_set(out, 2, 0, -sinf(radians));
+	matrix_set(out, 2, 2, cos(radians));
+}
+
+
+void matrix_rotation_z(Matrix *out, float radians)
+{
+	matrix_identity(out);
+	matrix_set(out, 0, 0, cosf(radians));
+	matrix_set(out, 0, 1, -sinf(radians));
+	matrix_set(out, 1, 0, sinf(radians));
+	matrix_set(out, 1, 1, cosf(radians));
+}
+
+void matrix_shearing(Matrix *out, float xy, float xz, float yx, float yz, float zx, float zy)
+{
+	matrix_identity(out);
+	matrix_set(out, 0, 1, xy);
+	matrix_set(out, 0, 2, xz);
+	matrix_set(out, 1, 0, yx);
+	matrix_set(out, 1, 2, yz);
+	matrix_set(out, 2, 0, zx);
+	matrix_set(out, 2, 1, zy);
 }
 

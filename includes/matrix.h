@@ -41,4 +41,18 @@ float matrix_cofactor(Matrix *m, int row, int col);
 
 int matrix_inverse(Matrix *out, Matrix *in);
 
+/* Transformations */
+
+void matrix_translation(Matrix *out, float x, float y, float z);
+
+void matrix_scaling(Matrix *out, float x, float y, float z);
+
+void matrix_rotation_x(Matrix *out, float radians);
+
+void matrix_rotation_y(Matrix *out, float radians);
+
+void matrix_rotation_z(Matrix *out, float radians);
+
+void matrix_shearing(Matrix *out, float xy, float xz, float yx, float yz, float zx, float zy);
+
 #endif

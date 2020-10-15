@@ -32,7 +32,7 @@ int main()
 	Canvas c;
 	Color red;
 	Point start;
-	Vector velocity, direction, gravity, wind;
+	Vector velocity, gravity, wind;
 	Projectile p;
 	Environment e;
 
