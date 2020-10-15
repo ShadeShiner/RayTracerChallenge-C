@@ -26,7 +26,7 @@ int main()
 		matrix_mul_tuple(&p, &rotation, &twelve);
 		
 		p.x = p.x * radius + half;
-		p.z = 500 - (p.z * radius + half);
+		p.z = canvas.height - (p.z * radius + half);
 		write_pixel(&canvas, round(p.x), round(p.z), &color); 
 	}
 	char *ppm = canvas_to_ppm(&canvas);
