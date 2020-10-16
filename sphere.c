@@ -40,6 +40,6 @@ void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *ray)
 	Intersect *i2 = malloc(sizeof(Intersect));
 	intersect_init(i1, t1, sphere);
 	intersect_init(i2, t2, sphere);
-	intersect_group_add(intersect_group, i1, i2);
+	intersect_group_add(intersect_group, 2, i1, i2);
 }
 

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdarg.h>
 #include <intersections.h>
 #include <sphere.h>
 
@@ -16,32 +17,41 @@ static void add_to_group(IntersectGroup *intersect_group, IntersectNode *node)
 		intersect_group->front = node;
 	else
 	{
-		IntersectNode *current, *next;
-		for (current = intersect_group->front, next = NULL;
+		IntersectNode *current, *prev;
+		for (current = intersect_group->front, prev = NULL;
 		     current != NULL;
-			 current = next)
+			 prev = current, current = current->next)
 		{
-			next = current->next;
-			if (node->element->t >= current->element->t)
+			if (node->element->t <= current->element->t)
 			{
-				node->next = current->next;
-				current->next = node;
+				node->next = current;
+				if (prev == NULL)
+					intersect_group->front = node;
+				else
+					prev->next = node;
 				break;
 			}
 		}
+		if (current == NULL)
+			prev->next = node;
 	}
 	intersect_group->count++;
 }
 
-void intersect_group_add(IntersectGroup *intersect_group, Intersect *i1, Intersect *i2)
+void intersect_group_add(IntersectGroup *intersect_group, int args, ...)
 {
-	IntersectNode *in1 = malloc(sizeof(IntersectNode));
-	intersect_node_init(in1, i1);
-	add_to_group(intersect_group, in1);
+	va_list ap;
+	va_start(ap, args);
 
-	IntersectNode *in2 = malloc(sizeof(IntersectNode));
-	intersect_node_init(in2, i2);
-	add_to_group(intersect_group, in2);
+	for (int i = 0; i < args; ++i)
+	{
+		IntersectNode *node = malloc(sizeof(IntersectNode));
+		intersect_node_init(node, va_arg(ap, Intersect *));
+		add_to_group(intersect_group, node);
+
+	}
+
+	va_end(ap);
 }
 
 
@@ -55,6 +65,16 @@ Intersect* intersect_group_get(IntersectGroup *intersect_group, unsigned int ind
 		node = node->next;
 	
 	return node->element;
+}
+
+
+Intersect* intersect_group_hit(IntersectGroup *intersect_group)
+{
+	IntersectNode *node = intersect_group->front;
+	for(; node != NULL; node = node->next)
+		if (node->element->t >= 0)
+			return node->element;
+	return NULL;
 }
 
 

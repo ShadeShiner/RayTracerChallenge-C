@@ -45,10 +45,11 @@ struct IntersectNode_
 /* IntersectGroup */
 void intersect_group_init(IntersectGroup *intersections);
 
-void intersect_group_add(IntersectGroup *intersections, Intersect *i1, Intersect *i2);
+void intersect_group_add(IntersectGroup *intersections, int args, ...);
 
-Intersect* intersect_group_get(IntersectGroup *intersections, unsigned int index);
+Intersect* intersect_group_get(IntersectGroup *intersect_group, unsigned int index);
 
+Intersect* intersect_group_hit(IntersectGroup *intersect_group); 
 
 /* IntersectNode */
 void intersect_node_init(IntersectNode *node, Intersect *intersect);
