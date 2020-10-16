@@ -4,8 +4,8 @@
 /* Forward Delcaration to avoid circular dependency includes */
 typedef struct Sphere_ Sphere;
 
+typedef struct IntersectGroup_ IntersectGroup;
 typedef struct Intersection_ Intersection;
-typedef struct Intersections_ Intersections;
 typedef struct IntersectNode_ IntersectNode;
 
 
@@ -20,7 +20,7 @@ struct Intersection_
    TODO: This will be a linked list where the it is sorted
    by their t valuse of each intersect object.
 */
-struct Intersections_
+struct IntersectGroup_
 {
 	unsigned int count;
 	IntersectNode *front;
@@ -42,12 +42,12 @@ struct IntersectNode_
 };
 
 
-/* Intersections */
-void intersections_init(Intersections *intersections);
+/* IntersectGroup */
+void intersect_group_init(IntersectGroup *intersections);
 
-void intersections(Intersections *intersections, Intersect *i1, Intersect *i2);
+void intersect_group_add(IntersectGroup *intersections, Intersect *i1, Intersect *i2);
 
-Intersect* intersections_get(Intersections *intersections, unsigned int index);
+Intersect* intersect_group_get(IntersectGroup *intersections, unsigned int index);
 
 
 /* IntersectNode */

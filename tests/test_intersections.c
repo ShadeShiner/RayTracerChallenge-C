@@ -30,17 +30,17 @@ void aggregating_intersections()
 	intersect_init(&i1, 1, &s);
 	intersect_init(&i2, 2, &s);
 
-	Intersections xs;
-	intersections_init(&xs);
-	intersections(&xs, &i1, &i2);
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+	intersect_group_add(&xs, &i1, &i2);
 
 	if (xs.count != 2)
 		return test_failed();
 	
-	if (intersections_get(&xs, 0)->object != &s)
+	if (intersect_group_get(&xs, 0)->object != &s)
 		return test_failed();
 	
-	if (intersections_get(&xs, 1)->object != &s)
+	if (intersect_group_get(&xs, 1)->object != &s)
 		return test_failed();
 	
 	test_passed();

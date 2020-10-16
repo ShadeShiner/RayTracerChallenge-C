@@ -15,18 +15,20 @@ void a_ray_intersects_a_sphere_at_two_points()
 	ray_init(&r, &p, &v);
 
 	Sphere s;
-	Intersection xs;
-
 	sphere_init(&s);
+
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+
 	sphere_intersect(&xs, &s, &r);
 
 	if (xs.count != 2)
 		return test_failed();
 	
-	if (float_equal(4.0, xs.points[0]))
+	if (float_equal(4.0, intersect_group_get(&xs, 0)->t))
 		return test_failed();
 	
-	if (float_equal(6.0, xs.points[1]))
+	if (float_equal(6.0, intersect_group_get(&xs, 1)->t))
 		return test_failed();
 	
 	test_passed();
@@ -45,16 +47,18 @@ void a_ray_intersects_a_sphere_at_a_tangent()
 	Sphere s;
 	sphere_init(&s);
 
-	Intersection xs;
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+
 	sphere_intersect(&xs, &s, &r);
 	
 	if (xs.count != 2)
 		return test_failed();
 	
-	if (float_equal(5.0, xs.points[0]))
+	if (float_equal(5.0, intersect_group_get(&xs, 0)->t))
 		return test_failed();
 	
-	if (float_equal(5.0, xs.points[1]))
+	if (float_equal(5.0, intersect_group_get(&xs, 1)->t))
 		return test_failed();
 	
 	test_passed();
@@ -71,9 +75,11 @@ void a_ray_misses_a_sphere()
 	ray_init(&r, &p, &v);
 
 	Sphere s;
-	Intersection xs;
-
 	sphere_init(&s);
+
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+
 	sphere_intersect(&xs, &s, &r);
 
 	if (xs.count != 0)
@@ -93,18 +99,20 @@ void a_ray_originates_inside_a_sphere()
 	ray_init(&r, &p, &v);
 
 	Sphere s;
-	Intersection xs;
-
 	sphere_init(&s);
+
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+
 	sphere_intersect(&xs, &s, &r);
 
 	if (xs.count != 2)
 		return test_failed();
 	
-	if (float_equal(-1.0, xs.points[0]))
+	if (float_equal(-1.0, intersect_group_get(&xs, 0)->t))
 		return test_failed();
 	
-	if (float_equal(1.0, xs.points[1]))
+	if (float_equal(1.0, intersect_group_get(&xs, 1)->t))
 		return test_failed();
 	
 	test_passed();
@@ -121,18 +129,20 @@ void a_sphere_is_behind_a_ray()
 	ray_init(&r, &p, &v);
 
 	Sphere s;
-	Intersection xs;
-
 	sphere_init(&s);
+
+	IntersectGroup xs;
+	intersect_group_init(&xs);
+
 	sphere_intersect(&xs, &s, &r);
 
 	if (xs.count != 2)
 		return test_failed();
 	
-	if (float_equal(-6.0, xs.points[0]))
+	if (float_equal(-6.0, intersect_group_get(&xs, 0)->t))
 		return test_failed();
 	
-	if (float_equal(-4.0, xs.points[1]))
+	if (float_equal(-4.0, intersect_group_get(&xs, 1)->t))
 		return test_failed();
 	
 	test_passed();

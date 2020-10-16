@@ -5,6 +5,7 @@
 #include <ray.h>
 #include <intersections.h>
 
+
 static unsigned int ID = 0;
 
 int sphere_init(Sphere *sphere)
@@ -13,7 +14,7 @@ int sphere_init(Sphere *sphere)
 	return sphere->ID;
 }
 
-void sphere_intersect(Intersection *intersects, Sphere *sphere, Ray *ray)
+void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *ray)
 {
 	/*
 	The vector from the sphere's center, to the ray origin
@@ -29,15 +30,16 @@ void sphere_intersect(Intersection *intersects, Sphere *sphere, Ray *ray)
 	float b = 2 * tuple_dot(ray->direction, &sphere_to_ray);
 	float c = tuple_dot(&sphere_to_ray, &sphere_to_ray) - 1;
 	float discriminant = (b * b) - (4 * a * c);
-	intersects->count = 0;
 	if (discriminant < 0)
 		return;
 	
 	float t1 = (-b - sqrtf(discriminant)) / (2 * a);
 	float t2 = (-b + sqrtf(discriminant)) / (2 * a);
 
-	intersects->count = 2;
-	intersects->points[0] = t1;
-	intersects->points[1] = t2;
+	Intersect *i1 = malloc(sizeof(Intersect));
+	Intersect *i2 = malloc(sizeof(Intersect));
+	intersect_init(i1, t1, sphere);
+	intersect_init(i2, t2, sphere);
+	intersect_group_add(intersect_group, i1, i2);
 }
 

@@ -4,20 +4,20 @@
 
 
 /* Intersections */
-void intersections_init(Intersections *intersections)
+void intersect_group_init(IntersectGroup *intersect_group)
 {
-	intersections->count = 0;
-	intersections->front = NULL;
+	intersect_group->count = 0;
+	intersect_group->front = NULL;
 }
 
-static void add_to_intersections(Intersections *intersections, IntersectNode *node)
+static void add_to_group(IntersectGroup *intersect_group, IntersectNode *node)
 {
-	if (intersections->front == NULL)
-		intersections->front = node;
+	if (intersect_group->front == NULL)
+		intersect_group->front = node;
 	else
 	{
 		IntersectNode *current, *next;
-		for (current = intersections->front, next = NULL;
+		for (current = intersect_group->front, next = NULL;
 		     current != NULL;
 			 current = next)
 		{
@@ -30,27 +30,27 @@ static void add_to_intersections(Intersections *intersections, IntersectNode *no
 			}
 		}
 	}
-	intersections->count++;
+	intersect_group->count++;
 }
 
-void intersections(Intersections *intersections, Intersect *i1, Intersect *i2)
+void intersect_group_add(IntersectGroup *intersect_group, Intersect *i1, Intersect *i2)
 {
 	IntersectNode *in1 = malloc(sizeof(IntersectNode));
 	intersect_node_init(in1, i1);
-	add_to_intersections(intersections, in1);
+	add_to_group(intersect_group, in1);
 
 	IntersectNode *in2 = malloc(sizeof(IntersectNode));
 	intersect_node_init(in2, i2);
-	add_to_intersections(intersections, in2);
+	add_to_group(intersect_group, in2);
 }
 
 
-Intersect* intersections_get(Intersections *intersections, unsigned int index)
+Intersect* intersect_group_get(IntersectGroup *intersect_group, unsigned int index)
 {
-	if (index >= intersections->count)
+	if (index >= intersect_group->count)
 		return NULL;
 	
-	IntersectNode *node = intersections->front;
+	IntersectNode *node = intersect_group->front;
 	for (int i = 0; i < index; ++i)
 		node = node->next;
 	

@@ -13,6 +13,6 @@ typedef struct Sphere_
 
 int sphere_init(Sphere *sphere);
 
-void sphere_intersect(Intersection *intersects, Sphere *sphere, Ray *ray);
+void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *ray);
 
 #endif
