@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include <test_library.h>
-#include "tuple.h"
-#include "ray.h"
+#include <tuple.h>
+#include <ray.h>
+#include <matrix.h>
 
 
 void creating_and_querying_a_ray()
@@ -54,11 +54,40 @@ void computing_a_point_from_a_distance()
 	test_passed();
 }
 
+void translating_a_ray()
+{
+	Ray r, r2;
+	Point p, p2, expected_point;
+	Vector v, v2, expected_vector;
+
+	point_init(&p, 1, 2, 3);
+	vector_init(&v, 0, 1, 0);
+	ray_init(&r, &p, &v);
+
+	point_init(&expected_point, 4, 6, 8);
+	vector_init(&expected_vector, 0, 1, 0);
+
+	Matrix m;
+	matrix_translation(&m, 3, 4, 5);
+
+	ray_init(&r2, &p2, &v2);
+	ray_transform(&r2, &r, &m);
+
+	if (tuple_equal(&expected_point, r2.origin))
+		return test_failed();
+	
+	if (tuple_equal(&expected_vector, r2.direction))
+		return test_failed();
+	
+	test_passed();
+}
+
 int main()
 {
 	test_header();
 	creating_and_querying_a_ray();
 	computing_a_point_from_a_distance();
+	translating_a_ray();
 	test_results();
 	return 0;
 }
