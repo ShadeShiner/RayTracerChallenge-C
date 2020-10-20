@@ -374,6 +374,36 @@ void multiplying_colors()
 	return test_passed();
 }
 
+void reflecting_a_vector_approaching_at_45_degrees()
+{
+	Vector v, n, r, expected;
+
+	vector_init(&v, 1, -1, 0);
+	vector_init(&n, 0, 1, 0);
+	tuple_reflect(&r, &v, &n);
+
+	vector_init(&expected, 1, 1, 0);
+	if (tuple_equal(&expected, &r))
+		return test_failed();
+	
+	test_passed();
+}
+
+void reflecting_a_vector_off_a_slanted_surface()
+{
+	Vector v, n, r, expected;
+
+	vector_init(&v, 0, -1, 0);
+	vector_init(&n, sqrtf(2)/2, sqrtf(2)/2, 0);
+
+	tuple_reflect(&r, &v, &n);
+	vector_init(&expected, 1, 0, 0);
+	if (tuple_equal(&expected, &r))
+		return test_failed();
+	
+	test_passed();
+}
+
 int main()
 {
 	test_header();
@@ -401,6 +431,8 @@ int main()
 	subtracting_colors();
 	multiplying_a_color_by_a_scalar();
 	multiplying_colors();
+	reflecting_a_vector_approaching_at_45_degrees();
+	reflecting_a_vector_off_a_slanted_surface();
 	test_results();
 	return 0;
 }

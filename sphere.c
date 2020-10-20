@@ -61,3 +61,27 @@ void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *worl
 	intersect_group_add(intersect_group, 2, i1, i2);
 }
 
+void sphere_normal_at(Vector *world_normal, Sphere *sphere, Point *world_point)
+{
+	/* world -> object */
+	Point object_point;
+	Matrix inverse, transposed;
+
+	matrix_inverse(&inverse, sphere->transform);
+	matrix_mul_tuple(&object_point, &inverse, world_point);
+
+	/* calculate normal at object space coordinate */
+	Point origin;
+	point_init(&origin, 0, 0, 0);
+
+	Vector object_normal;
+	tuple_sub(&object_normal, &object_point, &origin);
+
+	/* object -> world */
+	Vector object_to_world;
+	matrix_transpose(&transposed, &inverse);
+	matrix_mul_tuple(&object_to_world, &transposed, &object_normal);
+	object_to_world.w = 0;
+	tuple_normalize(world_normal, &object_to_world);
+}
+

@@ -103,4 +103,8 @@ float tuple_dot(Vector *left, Vector *right);
 
 void tuple_cross(Vector *out, Vector *left, Vector *right);
 
+/* MISC */
+
+void tuple_reflect(Vector *out, Vector *in, Vector *normal);
+
 #endif

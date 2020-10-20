@@ -122,3 +122,14 @@ void tuple_cross(Vector *out, Vector *left, Vector *right)
 					 left->x * right->y - left->y * right->x);
 }
 
+/* MISC */
+
+void tuple_reflect(Vector *out, Vector *in, Vector *normal)
+{
+	Vector product;
+
+	float scalar_product = 2 * tuple_dot(in, normal);
+	tuple_mul_scalar(&product, normal, scalar_product);
+	tuple_sub(out, in, &product);
+}
+

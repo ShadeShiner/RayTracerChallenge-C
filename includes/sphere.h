@@ -19,4 +19,6 @@ void sphere_set_transform(Sphere *sphere, Matrix *transform);
 
 void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *world_ray);
 
+void sphere_normal_at(Vector *world_normal, Sphere *sphere, Point *world_point);
+
 #endif

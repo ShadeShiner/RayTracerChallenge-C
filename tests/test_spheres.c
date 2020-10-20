@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <test_library.h>
 #include <sphere.h>
 #include <ray.h>
@@ -242,6 +243,139 @@ void intersecting_a_scaled_sphere_with_a_ray()
 	test_passed();
 }
 
+void the_normal_on_a_sphere_at_a_point_on_the_x_axis()
+{
+	Sphere s;
+	Point p;
+	Vector n, expected;
+
+	sphere_init(&s);
+	point_init(&p, 1, 0, 0);
+	vector_init(&expected, 1, 0, 0);
+
+	sphere_normal_at(&n, &s, &p);
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void the_normal_on_a_sphere_at_a_point_on_the_y_axis()
+{
+	Sphere s;
+	Point p;
+	Vector n, expected;
+
+	sphere_init(&s);
+	point_init(&p, 0, 1, 0);
+	vector_init(&expected, 0, 1, 0);
+
+	sphere_normal_at(&n, &s, &p);
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void the_normal_on_a_sphere_at_a_point_on_the_z_axis()
+{
+	Sphere s;
+	Point p;
+	Vector n, expected;
+
+	sphere_init(&s);
+	point_init(&p, 0, 0, 1);
+	vector_init(&expected, 0, 0, 1);
+
+	sphere_normal_at(&n, &s, &p);
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void the_normal_on_a_sphere_at_a_nonaxial_point()
+{
+	Sphere s;
+	Point p;
+	Vector n, expected;
+
+	sphere_init(&s);
+	point_init(&p, sqrtf(3)/3, sqrtf(3)/3, sqrtf(3)/3);
+	vector_init(&expected, sqrtf(3)/3, sqrtf(3)/3, sqrtf(3)/3);
+
+	sphere_normal_at(&n, &s, &p);
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void the_normal_is_a_normalized_vector()
+{
+	Sphere s;
+	Point p;
+	Vector n, result;
+
+	sphere_init(&s);
+	point_init(&p, sqrtf(3)/3, sqrtf(3)/3, sqrtf(3)/3);
+
+	sphere_normal_at(&n, &s, &p);
+	tuple_normalize(&result, &n);
+
+	if (tuple_equal(&result, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void computing_the_normal_on_a_translated_sphere()
+{
+	Sphere s;
+	Matrix transform;
+
+	sphere_init(&s);
+	matrix_translation(&transform, 0, 1, 0);
+	sphere_set_transform(&s, &transform);
+
+
+	Vector n, expected;
+	Point p;
+
+	point_init(&p, 0, 1.70711, -0.70711);
+	vector_init(&expected, 0, 0.70711, -0.70711);
+	sphere_normal_at(&n, &s, &p);
+
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
+void computing_the_normal_on_a_transformed_sphere()
+{
+	Sphere s;
+	Matrix scaling, rotation, transform;
+
+	sphere_init(&s);
+	matrix_scaling(&scaling, 1, 0.5, 1);
+	matrix_rotation_z(&rotation, M_PI / 5);
+	matrix_mul(&transform, &scaling, &rotation);
+	sphere_set_transform(&s, &transform);
+
+	Vector n, expected;
+	Point p;
+
+	point_init(&p, 0, sqrtf(2)/2, -sqrtf(2)/2);
+	vector_init(&expected, 0, 0.97014, -0.24254);
+	sphere_normal_at(&n, &s, &p);
+	
+	if (tuple_equal(&expected, &n))
+		return test_failed();
+	
+	test_passed();
+}
+
 int main()
 {
 	test_header();
@@ -254,6 +388,13 @@ int main()
 	a_spheres_default_transformation();
 	changing_a_spheres_transformation();
 	intersecting_a_scaled_sphere_with_a_ray();
+	the_normal_on_a_sphere_at_a_point_on_the_x_axis();
+	the_normal_on_a_sphere_at_a_point_on_the_y_axis();
+	the_normal_on_a_sphere_at_a_point_on_the_z_axis();
+	the_normal_on_a_sphere_at_a_nonaxial_point();
+	the_normal_is_a_normalized_vector();
+	computing_the_normal_on_a_translated_sphere();
+	computing_the_normal_on_a_transformed_sphere();
 	test_results();
 	return 0;
 }
