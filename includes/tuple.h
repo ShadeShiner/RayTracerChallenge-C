@@ -83,6 +83,12 @@ void tuple_sub(Tuple *out, Tuple *left, Tuple *right);
 
 void tuple_neg(Vector *out, Vector *v);
 
+#define point_neg tuple_neg
+
+#define vector_neg tuple_neg
+
+#define color_neg tuple_neg
+
 /* Multiplication */
 
 void tuple_mul_scalar(Tuple *out, Tuple *t, float scalar);
@@ -97,14 +103,24 @@ void tuple_div_scalar(Tuple *out, Tuple *t, float scalar);
 
 float tuple_magnitude(Vector *v);
 
+#define vector_magnitude tuple_magnitude
+
 void tuple_normalize(Vector *out, Vector *v);
+
+#define vector_normalize tuple_normalize
 
 float tuple_dot(Vector *left, Vector *right);
 
+#define vector_dot tuple_dot
+
 void tuple_cross(Vector *out, Vector *left, Vector *right);
+
+#define vector_cross tuple_cross
 
 /* MISC */
 
 void tuple_reflect(Vector *out, Vector *in, Vector *normal);
+
+#define vector_reflect tuple_reflect
 
 #endif
