@@ -376,6 +376,37 @@ void computing_the_normal_on_a_transformed_sphere()
 	test_passed();
 }
 
+void a_sphere_has_a_default_material()
+{
+	Sphere s;
+	Material *m, expected;
+
+	sphere_init(&s);
+	m = s.material;	
+	material_default_init(&expected);
+
+	if (material_equal(&expected, m))
+		return test_failed();
+	
+	test_passed();
+}
+
+void a_sphere_may_be_assigned_a_material()
+{
+	Sphere s;
+	Material m;
+
+	sphere_init(&s);
+	material_default_init(&m);
+	m.ambient = 1;
+
+	s.material = &m;
+	if (material_equal(s.material, &m))
+		return test_failed();
+	
+	test_passed();
+}
+
 int main()
 {
 	test_header();
@@ -395,6 +426,8 @@ int main()
 	the_normal_is_a_normalized_vector();
 	computing_the_normal_on_a_translated_sphere();
 	computing_the_normal_on_a_transformed_sphere();
+	a_sphere_has_a_default_material();
+	a_sphere_may_be_assigned_a_material();
 	test_results();
 	return 0;
 }

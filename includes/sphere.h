@@ -4,12 +4,14 @@
 #include <tuple.h>
 #include <ray.h>
 #include <matrix.h>
+#include <material.h>
 #include <intersections.h>
 
 typedef struct Sphere_
 {
 	unsigned int ID;
 	Matrix *transform;
+	Material *material;
 } Sphere;
 
 

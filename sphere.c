@@ -4,6 +4,7 @@
 #include <tuple.h>
 #include <ray.h>
 #include <matrix.h>
+#include <material.h>
 #include <intersections.h>
 
 
@@ -14,6 +15,7 @@ int sphere_init(Sphere *sphere)
 	sphere->ID = ID++;
 	sphere->transform = malloc(sizeof(Matrix));
 	matrix_identity(sphere->transform);
+	sphere->material = material_default_create();
 	return sphere->ID;
 }
 
