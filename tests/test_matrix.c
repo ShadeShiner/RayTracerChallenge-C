@@ -519,9 +519,9 @@ void calculating_the_inverse_of_a_third_matrix()
 						  {-7, 6, 6, 2}};
 	init_matrix_with_values_4(&a, values);
 
-	float expected_values[4][4] = {{-0.04074, -0.0778, 0.14444, -0.22222},
+	float expected_values[4][4] = {{-0.04074, -0.07778, 0.14444, -0.22222},
 								   {-0.07778, 0.03333, 0.36667, -0.33333},
-								   {-0.02901, -0.14630, -0.10923, 0.12963},
+								   {-0.02901, -0.14630, -0.10926, 0.12963},
 								   {0.17778, 0.06667, -0.26667, 0.33333}};
 	init_matrix_with_values_4(&expected, expected_values);
 

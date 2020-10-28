@@ -1,7 +1,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include "tuple.h"
-
+#ifdef DEBUG
+	#include <logger.h>
+	char log_buffer[1024];
+#endif
 
 void tuple_init(Tuple *t, float x, float y, float z, float w)
 {
@@ -14,10 +17,10 @@ void tuple_init(Tuple *t, float x, float y, float z, float w)
 /* Returns 0 if the two floats are within the epsilon, -1 if not */
 int float_equal(float left, float right)
 {
-	if (abs(left - right) < EPSILON)
-		return 0;
-
-	return -1;
+	#ifdef DEBUG
+		log_write("float_equal(%f, %f) = %d\n", left, right, fabs(left - right) < EPSILON);
+	#endif
+	return fabs(left - right) < EPSILON ? 0 : -1;
 }
 
 int tuple_equal(Tuple *left, Tuple *right)
