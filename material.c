@@ -2,6 +2,10 @@
 #include <math.h>
 #include <material.h>
 #include <tuple.h>
+#ifdef DEBUG
+	#include <logger.h>
+	char log_buffer[1024];
+#endif
 
 
 /* Constructors and Destructors */

@@ -34,6 +34,7 @@ $(OBJ): %.o: %.c
 .PHONY: target
 clean:
 	find . -name "*.o" -delete
+	find . -name "*.txt" -delete
 	find tests -type f -executable -delete
 	find end_of_chapters -type f -executable -delete
 

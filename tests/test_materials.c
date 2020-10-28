@@ -4,6 +4,8 @@
 #include <material.h>
 #include <tuple.h>
 
+//#define round5(num) round(num * 100000) / 100000
+
 /* Setup */
 
 typedef struct SetupData_
@@ -65,7 +67,7 @@ void lighting_with_the_eye_between_the_light_and_the_surface()
 
 	point_init(&p, 0, 0, -10);
 	color_init(&c, 1, 1, 1);
-	color_init(&expected, 1, 1, 1);
+	color_init(&expected, 1.9, 1.9, 1.9);
 	point_light_init(&light, &p, &c);
 
 	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
@@ -137,7 +139,7 @@ void lighting_with_eye_in_the_path_of_the_reflection_vector()
 
 	point_init(&p, 0, 10, -10);
 	color_init(&c, 1, 1, 1);
-	color_init(&expected, 1.6364, 1.6364, 1.6364);
+	color_init(&expected, 1.636385, 1.636385, 1.636385);
 	point_light_init(&light, &p, &c);
 
 	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);

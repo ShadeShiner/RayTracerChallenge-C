@@ -103,22 +103,22 @@ void multiplying_by_the_inverse_of_a_scaling_matrix()
 
 void rotating_a_point_around_the_x_axis()
 {
-	Point p, result_one, result_two, expected_one, expected_two;
+	Point result_one, result_two;
 	Matrix half_quarter, full_quarter;
 
-	point_init(&p, 0, 1, 0);
+	Point p = {0, 1, 0};
 	matrix_rotation_x(&half_quarter, M_PI_4);
 	matrix_rotation_x(&full_quarter, M_PI_2);
 
-	point_init(&expected_one, 0, sqrtf(2)/2, sqrtf(2)/2);
-	point_init(&expected_two, 0, 0, 1);
+	Point expected_one = {0, sqrtf(2)/2, sqrtf(2)/2};
+	Point expected_two = {0, 0, 1};
 
 	matrix_mul_tuple(&result_one, &half_quarter, &p);
 	if (tuple_equal(&expected_one, &result_one))
 		return test_failed();
 
 	matrix_mul_tuple(&result_two, &full_quarter, &p);
-	if (tuple_equal(&expected_two, &expected_one))
+	if (tuple_equal(&expected_two, &result_two))
 		return test_failed();
 	
 	test_passed();
