@@ -10,3 +10,7 @@ There is psuedocode that is presented so that the reader can use any language an
   * It would be more performant in C.
   * Writing this code on a Raspberry Pi to learn linux.
   * Can compare performance between different machines.
+  * Compare with a Python equivalent version of the repository.
+
+For the last point, I made a Python equivalent repository that I am also taking the time to compare performance.
+https://github.com/ShadeShiner/RayTracerChallenge-Python
