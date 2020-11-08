@@ -14,3 +14,6 @@ There is psuedocode that is presented so that the reader can use any language an
 
 For the last point, I made a Python equivalent repository that I am also taking the time to compare performance.
 https://github.com/ShadeShiner/RayTracerChallenge-Python
+
+Unfortunately, this project was made with Linux in mind. It has no cross-platform build with Windows and possibly even MacOS. If you want to
+run any of this code, I recommend the Python equivalent.
