@@ -20,16 +20,16 @@ test: $(TEST_EXE)
 	@echo done
 
 $(TEST_EXE): $(TEST_SRC) $(OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
+	$(CC) -g $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
 
 eoc: $(EOC_EXE)
 	@echo done 
 
 $(EOC_EXE): $(EOC_SRC) $(OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
+	$(CC) -g $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
 
 $(OBJ): %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -g $(CFLAGS) -c $< -o $@
 
 .PHONY: target
 clean:

@@ -13,4 +13,6 @@ typedef struct PointLight_
 
 void point_light_init(PointLight *point_light, Point *position, Color *intensity);
 
+int point_light_equal(PointLight *pl1, PointLight *pl2);
+
 #endif

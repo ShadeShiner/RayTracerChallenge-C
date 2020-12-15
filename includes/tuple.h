@@ -34,11 +34,8 @@ void tuple_init(Tuple *t, float x, float y, float z, float w);
 /* Properties */
 
 #define color_red(c) ((c)->x)
-
 #define color_green(c) ((c)->y)
-
 #define color_blue(c) ((c)->z)
-
 #define color_alpha(c) ((c)->w)
 
 #define color_set_red(color, r) ((color)->x = (r))

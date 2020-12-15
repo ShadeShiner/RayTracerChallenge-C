@@ -17,6 +17,11 @@ typedef struct Sphere_
 
 int sphere_init(Sphere *sphere);
 
+Sphere* sphere_create();
+
+/* 0 if the two spheres are equal, any other number otherwise */
+int sphere_equal(const void *o1, const void *o2);
+
 void sphere_set_transform(Sphere *sphere, Matrix *transform);
 
 void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *world_ray);

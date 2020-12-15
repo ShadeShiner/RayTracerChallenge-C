@@ -19,6 +19,25 @@ int sphere_init(Sphere *sphere)
 	return sphere->ID;
 }
 
+Sphere* sphere_create()
+{
+	Sphere *s = malloc(sizeof(Sphere));
+	sphere_init(s);
+	return s;
+}
+
+int sphere_equal(const void *o1, const void *o2)
+{
+	Sphere *s1 = (Sphere *)o1;
+	Sphere *s2 = (Sphere *)o2;
+
+	int result = matrix_equal(s1->transform, s2->transform);
+	if (result)
+		return result;
+	
+	return material_equal(s1->material, s2->material);
+}
+
 void sphere_set_transform(Sphere *sphere, Matrix *transform)
 {
 	sphere->transform = transform;
