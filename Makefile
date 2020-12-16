@@ -10,14 +10,12 @@ EXE=$(SRC:.c=)
 
 TEST_DIR=tests
 TEST_SRCS=test_canvas.c test_intersections.c test_lights.c test_materials.c test_matrix.c test_rays.c test_spheres.c test_transformations.c test_tuple.c test_world.c
-TEST_SRCS_PATH=$(addprefix $(TEST_DIR)/, $(TEST_SRCS))
 
 BUILD_DIR=build
 TEST_EXE=$(addprefix $(BUILD_DIR)/, $(TEST_SRCS:.c=))
 
 EOC_DIR=end_of_chapters
 EOC_SRCS=eoc_1.c eoc_2.c eoc_3.c eoc_4.c eoc_5.c eoc_6.c
-EOC_OBJS=$(addprefix $(EOC_DIR)/, $(EOC_SRCS))
 EOC_EXE=$(addprefix $(BUILD_DIR)/, $(EOC_SRCS:.c=))
 
 
