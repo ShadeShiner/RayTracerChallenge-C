@@ -2,39 +2,56 @@ CC=gcc
 CFLAGS=-Wall -I includes
 LIBS=-lm
 
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
+SRC_DIR=src
+SRCS=canvas.c intersections.c lights.c logger.c material.c matrix.c my_string.c ray.c sphere.c test_library.c tuple.c world.c
+OBJ_DIR=obj
+OBJS=$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 EXE=$(SRC:.c=)
 
-TEST_SRC=$(wildcard tests/test*.c)
-TEST_EXE=$(TEST_SRC:.c=)
+TEST_DIR=tests
+TEST_SRCS=test_canvas.c test_intersections.c test_lights.c test_materials.c test_matrix.c test_rays.c test_spheres.c test_transformations.c test_tuple.c test_world.c
+TEST_SRCS_PATH=$(addprefix $(TEST_DIR)/, $(TEST_SRCS))
 
-EOC_SRC=$(wildcard end_of_chapters/eoc*.c)
-EOC_EXE=$(EOC_SRC:.c=)
+BUILD_DIR=build
+TEST_EXE=$(addprefix $(BUILD_DIR)/, $(TEST_SRCS:.c=))
+
+EOC_DIR=end_of_chapters
+EOC_SRCS=eoc_1.c eoc_2.c eoc_3.c eoc_4.c eoc_5.c eoc_6.c
+EOC_OBJS=$(addprefix $(EOC_DIR)/, $(EOC_SRCS))
+EOC_EXE=$(addprefix $(BUILD_DIR)/, $(EOC_SRCS:.c=))
 
 
-src: $(OBJ)
-	@echo src
+.PHONY: all
+all: build src test eoc
 
-test: $(TEST_EXE)
-	@echo done
+build: obj
+	mkdir -p $(BUILD_DIR)
 
-$(TEST_EXE): $(TEST_SRC) $(OBJ)
-	$(CC) -g $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
+obj:
+	mkdir -p $(OBJ_DIR)
 
-eoc: $(EOC_EXE)
-	@echo done 
+src: obj $(OBJS)
 
-$(EOC_EXE): $(EOC_SRC) $(OBJ)
-	$(CC) -g $(CFLAGS) $(LIBS) $(OBJ) $@.c -o $@
+test: build src $(TEST_EXE)
 
-$(OBJ): %.o: %.c
+eoc: build src $(EOC_EXE)
+
+$(TEST_EXE): $(BUILD_DIR)/%: $(OBJ_DIR)/%.o
+	$(CC) -g $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
+
+$(EOC_EXE): $(BUILD_DIR)/%: $(OBJ_DIR)/%.o
+	$(CC) -g $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -g $(CFLAGS) -c $< -o $@
 
-.PHONY: target
-clean:
-	find . -name "*.o" -delete
-	find . -name "*.txt" -delete
-	find tests -type f -executable -delete
-	find end_of_chapters -type f -executable -delete
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
+	$(CC) -g $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: $(EOC_DIR)/%.c
+	$(CC) -g $(CFLAGS) -c $< -o $@
+
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJ_DIR) $(BUILD_DIR)
