@@ -1,10 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include "tuple.h"
-#ifdef DEBUG
-	#include <logger.h>
-	char log_buffer[1024];
-#endif
 
 void tuple_init(Tuple *t, float x, float y, float z, float w)
 {
@@ -18,32 +14,20 @@ void tuple_init(Tuple *t, float x, float y, float z, float w)
 int float_equal(float left, float right)
 {
 	int result = fabs(left - right) < EPSILON ? 0 : -1;
-	#ifdef DEBUG
-		log_write("%s(%f, %f) = %d\n", __func__, left, right, result);
-	#endif
 	return result;
 }
 
 int tuple_equal(Tuple *left, Tuple *right)
 {
 	int result = float_equal(left->x, right->x);
-	#ifdef DEBUG
-		log_write("%s: x(%f, %f) = %d\n", __func__, left->x, right->x, result);
-	#endif
 	if (result)
 		return -1;
 	
 	result = float_equal(left->y, right->y);
-	#ifdef DEBUG
-		log_write("%s: y(%f, %f) = %d\n", __func__, left->y, right->y, result);
-	#endif
 	if (result)
 		return -1;
 
 	result = float_equal(left->z, right->z);
-	#ifdef DEBUG
-		log_write("%s: z(%f, %f) = %d\n", __func__, left->z, right->z, result);
-	#endif
 	if (result)
 		return -1;
 	

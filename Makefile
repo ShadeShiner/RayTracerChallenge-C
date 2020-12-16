@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -D DEBUG -I includes
+CFLAGS=-Wall -I includes
 LIBS=-lm
 
 SRC=$(wildcard *.c)

@@ -2,10 +2,6 @@
 #include <math.h>
 #include "tuple.h"
 #include "matrix.h"
-#ifdef DEBUG
-	#include <logger.h>
-	char log_buffer[1024];
-#endif
 
 
 void matrix_init(Matrix *m, unsigned int size)
@@ -49,10 +45,6 @@ int matrix_equal(Matrix *a, Matrix *b)
 			float m = matrix_get(a, i, j);
 			float n = matrix_get(b, i, j);
 			int result = float_equal(m, n);
-			#ifdef DEBUG
-				log_write("%s: (%d, %d) -> %f == %f = %d\n", __func__, i, j, 
-						m, n, result);
-			#endif
 			if (result)
 				return 1;
 		}
