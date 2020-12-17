@@ -7,7 +7,7 @@
 void matrix_init(Matrix *m, unsigned int size)
 {
 	m->size = size;
-	m->matrix = (float *)malloc(size * size * sizeof(int));
+	m->matrix = (float *)malloc(size * size * sizeof(float));
 }
 
 void matrix_identity(Matrix *m)

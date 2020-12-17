@@ -20,7 +20,7 @@ material_init(Material *material, Color *color,
 void
 material_default_init(Material *material)
 {
-	material->color = malloc(sizeof(Material));
+	material->color = malloc(sizeof(Color));
 	color_init(material->color, 1, 1, 1);
 	material->ambient = 0.1;
 	material->diffuse = 0.9;

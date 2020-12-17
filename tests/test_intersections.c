@@ -128,6 +128,117 @@ void the_hit_is_always_the_lowest_nonnegative_intersection()
 	test_passed();
 }
 
+
+void precomputing_the_state_of_an_intersection()
+{
+	Point p;
+	point_init(&p, 0, 0, -5);
+
+	Vector v;
+	vector_init(&v, 0, 0, 1);
+
+	Ray r;
+	ray_init(&r, &p, &v);
+
+	Sphere shape;
+	sphere_init(&shape);
+
+	Intersect i;
+	intersect_init(&i, 4, &shape);
+
+	PreComputed *comps = precomputed_create(&i, &r);
+
+	if (float_equal(comps->t, i.t))
+		return test_failed();
+	
+	if (sphere_equal((void*)comps->object, (void*)i.object))
+		return test_failed();
+	
+	Point p_result;
+	point_init(&p_result, 0, 0, -1);
+	if (point_equal(comps->point, &p_result))
+		return test_failed();
+	
+	Vector eye_result;
+	vector_init(&eye_result, 0, 0, -1);
+	if (vector_equal(comps->eyev, &eye_result))
+		return test_failed();
+	
+	Vector normal_result;
+	vector_init(&normal_result, 0, 0, -1);
+	if (vector_equal(comps->normalv, &normal_result))
+		return test_failed();
+	
+	test_passed();
+}
+
+
+void the_hit_when_an_intersection_occurs_on_the_outside()
+{
+	Point p;
+	point_init(&p, 0, 0, -5);
+
+	Vector v;
+	vector_init(&v, 0, 0, 1);
+
+	Ray r;
+	ray_init(&r, &p, &v);
+
+	Sphere shape;
+	sphere_init(&shape);
+
+	Intersect i;
+	intersect_init(&i, 4, &shape);
+
+	PreComputed *comps = precomputed_create(&i, &r);
+	if (comps->inside != 0)
+		return test_failed();
+	
+	test_passed();
+}
+
+
+void the_hit_when_an_intersection_occurs_on_the_inside()
+{
+	Point p;
+	point_init(&p, 0, 0, 0);
+
+	Vector v;
+	vector_init(&v, 0, 0, 1);
+
+	Ray r;
+	ray_init(&r, &p, &v);
+
+	Sphere shape;
+	sphere_init(&shape);
+
+	Intersect i;
+	intersect_init(&i, 1, &shape);
+
+	PreComputed *comps = precomputed_create(&i, &r);
+
+	Point point_result;
+	point_init(&point_result, 0, 0, 1);
+	if (point_equal(comps->point, &point_result))
+		return test_failed();
+
+	Vector eye_result;
+	vector_init(&eye_result, 0, 0, -1);
+	if (vector_equal(comps->eyev, &eye_result))
+		return test_failed();
+	
+	if (comps->inside == 0)
+		return test_failed();
+	
+	Vector normal_result;
+	vector_init(&normal_result, 0, 0, -1);
+	if (vector_equal(comps->normalv, &normal_result))
+		return test_failed();
+	
+	test_passed();
+}
+
+
 int main()
 {
 	test_header();
@@ -137,6 +248,9 @@ int main()
 	the_hit_when_some_intersections_have_negative_t();
 	the_hit_when_all_intersection_have_negative_t();
 	the_hit_is_always_the_lowest_nonnegative_intersection();
+	precomputing_the_state_of_an_intersection();
+	the_hit_when_an_intersection_occurs_on_the_outside();
+	the_hit_when_an_intersection_occurs_on_the_inside();
 	test_results();
 	return 0;
 }

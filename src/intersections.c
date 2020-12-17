@@ -93,3 +93,34 @@ void intersect_init(Intersect *intersect, float t, Sphere *s)
 	intersect->object = s;
 }
 
+
+/* PreComputed */
+PreComputed* precomputed_create(Intersect *intersection, Ray *ray)
+{
+	/* Instantiate a data structure for storing some precomputed values */
+	PreComputed *result = (PreComputed *)malloc(sizeof(PreComputed));
+	result->point   = malloc(sizeof(Point));
+	result->eyev    = malloc(sizeof(Vector));
+	result->normalv = malloc(sizeof(Vector));
+
+	/* Copy the intersection's properties, for convenience */
+	result->t = intersection->t;
+	result->object = intersection->object;
+
+	/* precomputed some useful values */
+	ray_position(result->point, ray, intersection->t);
+	vector_neg(result->eyev, ray->direction);
+	sphere_normal_at(result->normalv, intersection->object, result->point);
+
+	if (tuple_dot(result->normalv, result->eyev) < 0)
+	{
+		result->inside = 1;
+		vector_neg(result->normalv, result->normalv);
+	}
+	else
+	{
+		result->inside = 0;
+	}
+
+	return result;
+}
