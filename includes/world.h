@@ -3,6 +3,9 @@
 #include "intersections.h"
 
 
+/* Forward Declarations */
+typedef struct Tuple_ Color;
+
 /* List type declaration */
 
 typedef struct ListNode_
@@ -50,9 +53,15 @@ int world_default(World *world);
 
 int world_add_object(World *world, void *object);
 
+Sphere* world_get_object(World *world, unsigned int index);
+
 int world_has_object(World *world, const void *object);
 
 IntersectGroup* world_intersect(World *w, Ray *r);
+
+Color* world_shade_hit(World *w, PreComputed *comps);
+
+Color* world_color_at(World *w, Ray *r);
 
 #define world_objects(world) ((world)->objects)
 

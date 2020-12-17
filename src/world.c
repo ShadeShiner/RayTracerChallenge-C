@@ -73,16 +73,16 @@ int world_default(World *world)
 {
     world_init(world);
 
+    Sphere *s2 = sphere_create();
+    matrix_scaling(s2->transform, 0.5, 0.5, 0.5);
+    if (world_add_object(world, (void *)s2) != 0)
+        return -1;
+
     Sphere *s1 = sphere_create();
     color_init(s1->material->color, 0.8, 1.0, 0.6);
     s1->material->diffuse = 0.7;
     s1->material->specular = 0.2;
     if (world_add_object(world, (void *)s1) != 0)
-        return -1;
-    
-    Sphere *s2 = sphere_create();
-    matrix_scaling(s2->transform, 0.5, 0.5, 0.5);
-    if (world_add_object(world, (void *)s2) != 0)
         return -1;
 
     world->light = (PointLight *)malloc(sizeof(PointLight));
@@ -98,6 +98,18 @@ int world_default(World *world)
 int world_add_object(World * world, void *object)
 {
     return list_add(&world->objects, 0, object);
+}
+
+Sphere*
+world_get_object(World *world, unsigned int index)
+{
+    ListNode *element;
+    unsigned i;
+    for (element = world->objects.head, i = 0;
+         i < index;
+         element = element->next, ++i);
+    
+    return (Sphere *)element->data;
 }
 
 int world_has_object(World *world, const void *object)
@@ -117,4 +129,29 @@ IntersectGroup* world_intersect(World *w, Ray *r)
     }
 
     return xs;
+}
+
+Color*
+world_shade_hit(World *w, PreComputed *comps)
+{
+    return material_lighting(comps->object->material,
+                             w->light,
+                             comps->point, comps->eyev, comps->normalv);
+}
+
+Color*
+world_color_at(World *w, Ray *r)
+{
+    IntersectGroup *xs = world_intersect(w, r);
+    Intersect *hit = intersect_group_hit(xs);
+
+    if (hit == NULL)
+    {
+        Color *black = malloc(sizeof(Color));
+        color_init(black, 0, 0, 0);
+        return black;
+    }
+
+    PreComputed *comps = precomputed_create(hit, r);
+    return world_shade_hit(w, comps);
 }

@@ -143,5 +143,5 @@ Color* material_lighting(Material *m, PointLight *l,
 	tuple_add(result, &ambient, &diffuse);
 	tuple_add(result, result, &specular);
 	return result;
-}
+ }
 
