@@ -10,7 +10,7 @@
 typedef struct Sphere_
 {
 	unsigned int ID;
-	Matrix *transform;
+	Matrix transform[4][4];
 	Material *material;
 } Sphere;
 
