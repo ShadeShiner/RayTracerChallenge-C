@@ -49,4 +49,6 @@ void matrix_rotation_z(Matrix *out, float radians);
 
 void matrix_shearing(Matrix *out, float xy, float xz, float yx, float yz, float zx, float zy);
 
+void matrix_view_transformation(Matrix *out, Point *from, Point *to, Vector *up);
+
 #endif

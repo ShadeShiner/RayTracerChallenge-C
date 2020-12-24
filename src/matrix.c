@@ -222,3 +222,32 @@ void matrix_shearing(Matrix *out, float xy, float xz, float yx, float yz, float 
 	matrix_set(out, 2, 1, 4, zy);
 }
 
+void matrix_view_transformation(Matrix *out, Point *from, Point *to, Vector *up)
+{
+	/* Compute the forward vector and normalize it */
+	Vector forward;
+	vector_sub(&forward, to, from);
+	Vector forward_normalized;
+	vector_normalize(&forward_normalized, &forward);
+
+	/* Compute the left vector */
+	Vector up_normalized;
+	vector_normalize(&up_normalized, up);
+	Vector left;
+	vector_cross(&left, &forward, &up_normalized);
+
+	/* Compute the true_up vector */
+	Vector true_up;
+	vector_cross(&true_up, &left, &forward);
+
+	/* Compute the orientation matrix with left, true_up, and forward vectors */
+	Matrix orientation[4][4] = {{left.x,     left.y,     left.z,     0},
+								{true_up.x,  true_up.y,  true_up.z,  0},
+								{-forward.x, -forward.y, -forward.z, 0},
+								{0,          0,          0,          1}};
+
+	/* Append translation to the orientation matrix to move the scene into place before entering */
+	Matrix translation[4][4];
+	matrix_translation(array_mem(translation), -from->x, -from->y, -from->z);
+	matrix_mul(out, array_mem(orientation), array_mem(translation), 4);
+}
