@@ -338,6 +338,80 @@ void the_transformation_matrix_for_the_default_orientation()
 }
 
 
+void a_view_transformation_matrix_looking_in_positive_z_direction()
+{
+	Point from;
+	point_init(&from, 0, 0, 0);
+	
+	Point to;
+	point_init(&to, 0, 0, 1);
+
+	Vector up;
+	vector_init(&up, 0, 1, 0);
+
+	Matrix t[4][4];
+	matrix_view_transformation(array_mem(t), &from, &to, &up);
+
+	Matrix expected[4][4];
+	matrix_scaling(array_mem(expected), -1, 1, -1);
+
+	if (matrix_equal(array_mem(expected), array_mem(t), 4))
+		return test_failed();
+	
+	test_passed();
+}
+
+
+void the_view_transformation_move_the_world()
+{
+	Point from;
+	point_init(&from, 0, 0, 8);
+
+	Point to;
+	point_init(&to, 0, 0, 0);
+
+	Vector up;
+	vector_init(&up, 0, 1, 0);
+
+	Matrix t[4][4];
+	matrix_view_transformation(array_mem(t), &from, &to, &up);
+
+	Matrix expected[4][4];
+	matrix_translation(array_mem(expected), 0, 0, -8);
+
+	if (matrix_equal(array_mem(expected), array_mem(t), 4))
+		return test_failed();
+	
+	test_passed();
+}
+
+
+void an_arbitrary_view_transformation()
+{
+	Point from;
+	point_init(&from, 1, 3, 2);
+
+	Point to;
+	point_init(&to, 4, -2, 8);
+
+	Vector up;
+	vector_init(&up, 1, 1, 0);
+
+	Matrix t[4][4];
+	matrix_view_transformation(array_mem(t), &from, &to, &up);
+
+	Matrix expected[4][4] = {{-0.50709, 0.50709, 0.67612, -2.36643},
+							 {0.76772,  0.60609, 0.12122, -2.82843},
+							 {-0.35857, 0.59761, -0.71714, 0.00000},
+							 {0.00000, 0.00000, 0.00000, 1.00000}};
+
+	if (matrix_equal(array_mem(expected), array_mem(t), 4))
+		return test_failed();
+	
+	test_passed()
+}
+
+
 int main()
 {
 	test_header();
@@ -359,6 +433,9 @@ int main()
 	a_shearing_transformation_moves_z_in_proportion_to_y();
 	individual_transformations_are_applied_in_sequence();
 	the_transformation_matrix_for_the_default_orientation();
+	a_view_transformation_matrix_looking_in_positive_z_direction();
+	the_view_transformation_move_the_world();
+	an_arbitrary_view_transformation();
 	test_results();
 	return 0;
 }

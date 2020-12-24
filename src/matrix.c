@@ -234,17 +234,18 @@ void matrix_view_transformation(Matrix *out, Point *from, Point *to, Vector *up)
 	Vector up_normalized;
 	vector_normalize(&up_normalized, up);
 	Vector left;
-	vector_cross(&left, &forward, &up_normalized);
+	vector_cross(&left, &forward_normalized, &up_normalized);
 
 	/* Compute the true_up vector */
 	Vector true_up;
-	vector_cross(&true_up, &left, &forward);
+	vector_cross(&true_up, &left, &forward_normalized);
 
 	/* Compute the orientation matrix with left, true_up, and forward vectors */
-	Matrix orientation[4][4] = {{left.x,     left.y,     left.z,     0},
-								{true_up.x,  true_up.y,  true_up.z,  0},
-								{-forward.x, -forward.y, -forward.z, 0},
-								{0,          0,          0,          1}};
+	Matrix orientation[4][4] = 
+		{{left.x,     left.y,     left.z,     0},
+		{true_up.x,  true_up.y,  true_up.z,  0},
+		{-forward_normalized.x, -forward_normalized.y, -forward_normalized.z, 0},
+		{0,          0,          0,          1}};
 
 	/* Append translation to the orientation matrix to move the scene into place before entering */
 	Matrix translation[4][4];
