@@ -13,7 +13,7 @@ void matrix_init(Matrix *m, unsigned int size);
 
 void matrix_identity(Matrix *m, const unsigned int size);
 
-#define matrix_get(m, row, col, size) (m[(row) * size + (col)])
+#define matrix_get(m, row, col, size) (m[(row) * (size) + (col)])
 
 #define matrix_set(m, row, col, size, value) (m[(row) * (size) + (col)] = (value))
 

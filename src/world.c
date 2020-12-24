@@ -74,7 +74,7 @@ int world_default(World *world)
     world_init(world);
 
     Sphere *s2 = sphere_create();
-    matrix_scaling(s2->transform, 0.5, 0.5, 0.5);
+    matrix_scaling(array_mem(s2->transform), 0.5, 0.5, 0.5);
     if (world_add_object(world, (void *)s2) != 0)
         return -1;
 

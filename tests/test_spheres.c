@@ -182,12 +182,12 @@ void intersect_sets_the_object_on_the_intersection()
 void a_spheres_default_transformation()
 {
 	Sphere s;
-	Matrix identity;
+	Matrix identity[4][4];
 
 	sphere_init(&s);
-	matrix_identity(&identity);
+	matrix_identity(array_mem(identity), 4);
 
-	if (matrix_equal(&identity, s.transform))
+	if (matrix_equal(array_mem(identity), array_mem(s.transform), 4))
 		return test_failed();
 	
 	test_passed();
@@ -196,14 +196,14 @@ void a_spheres_default_transformation()
 void changing_a_spheres_transformation()
 {
 	Sphere s;
-	Matrix t;
+	Matrix t[4][4];
 
 	sphere_init(&s);
-	matrix_translation(&t, 2, 3, 4);
+	matrix_translation(array_mem(t), 2, 3, 4);
 
-	sphere_set_transform(&s, &t);
+	sphere_set_transform(&s, array_mem(t));
 
-	if (matrix_equal(&t, s.transform))
+	if (matrix_equal(array_mem(t), array_mem(s.transform), 4))
 		return test_failed();
 	
 	test_passed()
@@ -355,13 +355,13 @@ void computing_the_normal_on_a_translated_sphere()
 void computing_the_normal_on_a_transformed_sphere()
 {
 	Sphere s;
-	Matrix scaling, rotation, transform;
+	Matrix scaling[4][4], rotation[4][4], transform[4][4];
 
 	sphere_init(&s);
-	matrix_scaling(&scaling, 1, 0.5, 1);
-	matrix_rotation_z(&rotation, M_PI / 5);
-	matrix_mul(&transform, &scaling, &rotation);
-	sphere_set_transform(&s, &transform);
+	matrix_scaling(array_mem(scaling), 1, 0.5, 1);
+	matrix_rotation_z(array_mem(rotation), M_PI / 5);
+	matrix_mul(array_mem(transform), array_mem(scaling), array_mem(rotation), 4);
+	sphere_set_transform(&s, array_mem(transform));
 
 	Vector n, expected;
 	Point p;

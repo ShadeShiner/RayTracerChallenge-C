@@ -40,7 +40,7 @@ void the_default_world()
 
     Sphere s2;
     sphere_init(&s2);
-    matrix_scaling(s2.transform, 0.5, 0.5, 0.5);
+    matrix_scaling(array_mem(s2.transform), 0.5, 0.5, 0.5);
 
     World w;
     world_default(&w);
