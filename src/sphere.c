@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
+
 #include <sphere.h>
 #include <tuple.h>
 #include <ray.h>
@@ -13,8 +14,7 @@ static unsigned int ID = 0;
 int sphere_init(Sphere *sphere)
 {
 	sphere->ID = ID++;
-	sphere->transform = malloc(sizeof(Matrix));
-	matrix_identity(sphere->transform);
+	matrix_identity(array_mem(sphere->transform), 4);
 	sphere->material = material_default_create();
 	return sphere->ID;
 }
@@ -31,7 +31,7 @@ int sphere_equal(const void *o1, const void *o2)
 	Sphere *s1 = (Sphere *)o1;
 	Sphere *s2 = (Sphere *)o2;
 
-	int result = matrix_equal(s1->transform, s2->transform);
+	int result = matrix_equal(array_mem(s1->transform), array_mem(s2->transform), 4);
 	if (result)
 		return result;
 	
@@ -40,20 +40,26 @@ int sphere_equal(const void *o1, const void *o2)
 
 void sphere_set_transform(Sphere *sphere, Matrix *transform)
 {
-	sphere->transform = transform;
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			sphere->transform[i][j] = matrix_get(transform, i, j, 4);
+		}
+	}
 }
 
 void sphere_intersect(IntersectGroup *intersect_group, Sphere *sphere, Ray *world_ray)
 {
-	Matrix world_to_local;
-	matrix_inverse(&world_to_local, sphere->transform);
+	Matrix world_to_local[4][4];
+	matrix_inverse(array_mem(world_to_local), array_mem(sphere->transform), 4);
 
 	Ray object_ray;
 	Point p;
 	Vector v;
 
 	ray_init(&object_ray, &p, &v);
-	ray_transform(&object_ray, world_ray, &world_to_local);
+	ray_transform(&object_ray, world_ray, array_mem(world_to_local));
 
 	/*
 	The vector from the sphere's center, to the ray origin
@@ -86,10 +92,10 @@ void sphere_normal_at(Vector *world_normal, Sphere *sphere, Point *world_point)
 {
 	/* world -> object */
 	Point object_point;
-	Matrix inverse, transposed;
+	Matrix inverse[4][4], transposed[4][4];
 
-	matrix_inverse(&inverse, sphere->transform);
-	matrix_mul_tuple(&object_point, &inverse, world_point);
+	matrix_inverse(array_mem(inverse), array_mem(sphere->transform), 4);
+	matrix_mul_tuple(&object_point, array_mem(inverse), world_point);
 
 	/* calculate normal at object space coordinate */
 	Point origin;
@@ -100,8 +106,8 @@ void sphere_normal_at(Vector *world_normal, Sphere *sphere, Point *world_point)
 
 	/* object -> world */
 	Vector object_to_world;
-	matrix_transpose(&transposed, &inverse);
-	matrix_mul_tuple(&object_to_world, &transposed, &object_normal);
+	matrix_transpose(array_mem(transposed), array_mem(inverse), 4);
+	matrix_mul_tuple(&object_to_world, array_mem(transposed), &object_normal);
 	object_to_world.w = 0;
 	tuple_normalize(world_normal, &object_to_world);
 }
