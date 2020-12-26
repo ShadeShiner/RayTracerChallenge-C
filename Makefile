@@ -15,7 +15,7 @@ BUILD_DIR=build
 TEST_EXE=$(addprefix $(BUILD_DIR)/, $(TEST_SRCS:.c=))
 
 EOC_DIR=end_of_chapters
-EOC_SRCS=eoc_1.c eoc_2.c eoc_3.c eoc_4.c eoc_5.c eoc_6.c
+EOC_SRCS=eoc_1.c eoc_2.c eoc_3.c eoc_4.c eoc_5.c eoc_6.c eoc_7.c
 EOC_EXE=$(addprefix $(BUILD_DIR)/, $(EOC_SRCS:.c=))
 
 
