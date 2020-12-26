@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "canvas.h"
 #include "tuple.h"
 #include "my_string.h"
+#include "camera.h"
+#include "world.h"
+#include "ray.h"
 
 
 void canvas_init(Canvas *c, unsigned int width, unsigned int height)
@@ -132,3 +136,19 @@ char * canvas_to_ppm(Canvas *canvas)
 	return buffer;
 }
 
+
+void canvas_render(Canvas *image, Camera *c, World *w)
+{
+	canvas_init(image, c->hsize, c->vsize);
+	Ray r;
+
+	for (int y = 0; y < c->vsize; ++y)
+	{
+		for (int x = 0; x < c->hsize; ++x)
+		{
+			ray_for_pixel(&r, c, x, y);
+			Color *c = world_color_at(w, &r);
+			write_pixel(image, x, y, c);
+		}
+	}
+}

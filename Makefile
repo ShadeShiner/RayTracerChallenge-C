@@ -3,13 +3,13 @@ CFLAGS=-Wall -I includes
 LIBS=-lm
 
 SRC_DIR=src
-SRCS=canvas.c intersections.c lights.c logger.c material.c matrix.c my_string.c ray.c sphere.c test_library.c tuple.c world.c
+SRCS=camera.c canvas.c intersections.c lights.c logger.c material.c matrix.c my_string.c ray.c sphere.c test_library.c tuple.c world.c
 OBJ_DIR=obj
 OBJS=$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 EXE=$(SRC:.c=)
 
 TEST_DIR=tests
-TEST_SRCS=test_canvas.c test_intersections.c test_lights.c test_materials.c test_matrix.c test_rays.c test_spheres.c test_transformations.c test_tuple.c test_world.c
+TEST_SRCS=test_camera.c test_canvas.c test_intersections.c test_lights.c test_materials.c test_matrix.c test_rays.c test_spheres.c test_transformations.c test_tuple.c test_world.c
 
 BUILD_DIR=build
 TEST_EXE=$(addprefix $(BUILD_DIR)/, $(TEST_SRCS:.c=))

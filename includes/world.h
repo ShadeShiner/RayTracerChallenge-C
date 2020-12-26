@@ -1,3 +1,6 @@
+#ifndef WORLD_H
+#define WORLD_H
+
 #include "ray.h"
 #include "lights.h"
 #include "intersections.h"
@@ -66,3 +69,6 @@ Color* world_color_at(World *w, Ray *r);
 #define world_objects(world) ((world)->objects)
 
 #define world_light(world) ((world)->light)
+
+
+#endif
