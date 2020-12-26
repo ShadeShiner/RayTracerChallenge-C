@@ -220,12 +220,12 @@ void intersecting_a_scaled_sphere_with_a_ray()
 	ray_init(&r, &p, &v);
 
 	Sphere s;
-	Matrix t;
+	Matrix t[4][4];
 
 	sphere_init(&s);
-	matrix_scaling(&t, 2, 2, 2);
+	matrix_scaling(array_mem(t), 2, 2, 2);
 
-	sphere_set_transform(&s, &t);
+	sphere_set_transform(&s, array_mem(t));
 
 	IntersectGroup xs;
 	intersect_group_init(&xs);
@@ -332,11 +332,11 @@ void the_normal_is_a_normalized_vector()
 void computing_the_normal_on_a_translated_sphere()
 {
 	Sphere s;
-	Matrix transform;
+	Matrix transform[4][4];
 
 	sphere_init(&s);
-	matrix_translation(&transform, 0, 1, 0);
-	sphere_set_transform(&s, &transform);
+	matrix_translation(array_mem(transform), 0, 1, 0);
+	sphere_set_transform(&s, array_mem(transform));
 
 
 	Vector n, expected;

@@ -67,11 +67,11 @@ void translating_a_ray()
 	point_init(&expected_point, 4, 6, 8);
 	vector_init(&expected_vector, 0, 1, 0);
 
-	Matrix m;
-	matrix_translation(&m, 3, 4, 5);
+	Matrix m[4][4];
+	matrix_translation(array_mem(m), 3, 4, 5);
 
 	ray_init(&r2, &p2, &v2);
-	ray_transform(&r2, &r, &m);
+	ray_transform(&r2, &r, array_mem(m));
 
 	if (tuple_equal(&expected_point, r2.origin))
 		return test_failed();
