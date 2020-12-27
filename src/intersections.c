@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <intersections.h>
 #include <sphere.h>
+#include <tuple.h>
 
 
 /* Intersections */
@@ -99,9 +100,10 @@ PreComputed* precomputed_create(Intersect *intersection, Ray *ray)
 {
 	/* Instantiate a data structure for storing some precomputed values */
 	PreComputed *result = (PreComputed *)malloc(sizeof(PreComputed));
-	result->point   = malloc(sizeof(Point));
-	result->eyev    = malloc(sizeof(Vector));
-	result->normalv = malloc(sizeof(Vector));
+	result->point      = malloc(sizeof(Point));
+	result->eyev       = malloc(sizeof(Vector));
+	result->normalv    = malloc(sizeof(Vector));
+	result->over_point = malloc(sizeof(Point));
 
 	/* Copy the intersection's properties, for convenience */
 	result->t = intersection->t;
@@ -121,6 +123,11 @@ PreComputed* precomputed_create(Intersect *intersection, Ray *ray)
 	{
 		result->inside = 0;
 	}
+
+	// This is used for generating shadows, avoids graphical "acne"
+	Point point_result;
+	tuple_mul_scalar(&point_result, result->normalv, EPSILON);
+	tuple_add(result->over_point, result->point, &point_result);
 
 	return result;
 }

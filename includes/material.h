@@ -41,7 +41,8 @@ material_destroy(Material *material);
 int material_equal(Material *left, Material *right);
 
 Color* material_lighting(Material *m, PointLight *l,
-	  	  				 Point *p, Vector *eye,
-						 Vector *normal);
+						Point *p, Vector *eye,
+						Vector *normal,
+						int in_shadow);
 
 #endif

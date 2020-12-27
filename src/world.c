@@ -134,9 +134,11 @@ IntersectGroup* world_intersect(World *w, Ray *r)
 Color*
 world_shade_hit(World *w, PreComputed *comps)
 {
+    int in_shadow = world_is_shadowed(w, comps->over_point);
     return material_lighting(comps->object->material,
                              w->light,
-                             comps->point, comps->eyev, comps->normalv);
+                             comps->over_point, comps->eyev, comps->normalv,
+                             in_shadow);
 }
 
 Color*
@@ -154,4 +156,24 @@ world_color_at(World *w, Ray *r)
 
     PreComputed *comps = precomputed_create(hit, r);
     return world_shade_hit(w, comps);
+}
+
+
+int world_is_shadowed(World *w, Point *p)
+{
+    Vector v;
+    vector_sub(&v, w->light->position, p);
+
+    float distance = vector_magnitude(&v);
+
+    Vector direction;
+    vector_normalize(&direction, &v);
+
+    Ray r;
+    ray_init(&r, p, &direction);
+
+    IntersectGroup *intersections = world_intersect(w, &r);
+
+    Intersect *h = intersect_group_hit(intersections);
+    return h != NULL && h->t < distance ? 1 : 0;
 }

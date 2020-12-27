@@ -239,6 +239,39 @@ void the_hit_when_an_intersection_occurs_on_the_inside()
 }
 
 
+void the_hit_should_offset_the_point()
+{
+	Point p;
+	point_init(&p, 0, 0, -5);
+
+	Vector v;
+	vector_init(&v, 0, 0, 1);
+
+	Ray r;
+	ray_init(&r, &p, &v);
+
+	Sphere shape;
+	sphere_init(&shape);
+
+	Matrix transform[4][4];
+	matrix_translation(array_mem(transform), 0, 0, 1);
+
+	sphere_set_transform(&shape, array_mem(transform));
+
+	Intersect i;
+	intersect_init(&i, 5, &shape);
+
+	PreComputed *comps = precomputed_create(&i, &r);
+	if (comps->over_point->z >= -EPSILON/2)
+		return test_failed();
+	
+	if (comps->point->z <= comps->over_point->z)
+		return test_failed();
+	
+	test_passed();
+}
+
+
 int main()
 {
 	test_header();
@@ -251,6 +284,7 @@ int main()
 	precomputing_the_state_of_an_intersection();
 	the_hit_when_an_intersection_occurs_on_the_outside();
 	the_hit_when_an_intersection_occurs_on_the_inside();
+	the_hit_should_offset_the_point();
 	test_results();
 	return 0;
 }

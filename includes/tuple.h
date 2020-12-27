@@ -1,7 +1,7 @@
 #ifndef TUPLE_H
 #define TUPLE_H
 
-#define EPSILON 0.00001
+#define EPSILON 0.0001
 
 /* Structures */
 

@@ -42,6 +42,8 @@ struct PreComputed_
 	Vector  *eyev;
 	Vector  *normalv;
 	int     inside;
+
+	Point   *over_point;
 };
 
 

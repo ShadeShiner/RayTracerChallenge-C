@@ -88,7 +88,8 @@ int material_equal(Material *left, Material *right)
 
 Color* material_lighting(Material *m, PointLight *l,
 						Point *p, Vector *eye,
-						Vector *normal)
+						Vector *normal,
+						int in_shadow)
 {
 	/* combine the surface color with the light's color/intensity */
 	Color effective_color;
@@ -140,8 +141,18 @@ Color* material_lighting(Material *m, PointLight *l,
 
 	/* Add the three contributions together to get the final shading */
 	Color *result = malloc(sizeof(Color));
-	tuple_add(result, &ambient, &diffuse);
-	tuple_add(result, result, &specular);
+	if (in_shadow)
+	{
+		result->x = ambient.x;
+		result->y = ambient.y;
+		result->z = ambient.z;
+		result->w = ambient.w;
+	}
+	else
+	{
+		tuple_add(result, &ambient, &diffuse);
+		tuple_add(result, result, &specular);
+	}
 	return result;
  }
 

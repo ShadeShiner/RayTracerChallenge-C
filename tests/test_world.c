@@ -244,6 +244,70 @@ void the_color_with_an_intersection_behind_the_ray()
 }
 
 
+void there_is_no_shadow_when_nothing_is_collinear_with_point_and_light()
+{
+    World w;
+    world_default(&w);
+
+    Point p;
+    point_init(&p, 0, 10, 0);
+
+    int result = world_is_shadowed(&w, &p);
+    if (result)
+        return test_failed();
+    
+    test_passed();
+}
+
+
+void the_shadow_when_an_object_is_between_the_point_and_the_light()
+{
+    World w;
+    world_default(&w);
+
+    Point p;
+    point_init(&p, 10, -10, 10);
+
+    int result = world_is_shadowed(&w, &p);
+    if (!result)
+        return test_failed();
+    
+    test_passed();
+}
+
+
+void there_is_no_shadow_when_an_object_is_behind_the_light()
+{
+    World w;
+    world_default(&w);
+
+    Point p;
+    point_init(&p, -20, 20, -20);
+
+    int result = world_is_shadowed(&w, &p);
+    if (result)
+        return test_failed();
+    
+    test_passed();
+}
+
+
+void there_is_no_shadow_when_an_object_is_behind_the_point()
+{
+    World w;
+    world_default(&w);
+
+    Point p;
+    point_init(&p, -2, 2, -2);
+
+    int result = world_is_shadowed(&w, &p);
+    if (result)
+        return test_failed();
+    
+    test_passed();
+}
+
+
 int main()
 {
     test_header();
@@ -255,6 +319,10 @@ int main()
     the_color_when_a_ray_misses();
     the_color_when_a_ray_hits();
     the_color_with_an_intersection_behind_the_ray();
+    there_is_no_shadow_when_nothing_is_collinear_with_point_and_light();
+    the_shadow_when_an_object_is_between_the_point_and_the_light();
+    there_is_no_shadow_when_an_object_is_behind_the_light();
+    there_is_no_shadow_when_an_object_is_behind_the_point();
     test_results();
     return 0;
 }

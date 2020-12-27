@@ -66,9 +66,10 @@ Color* world_shade_hit(World *w, PreComputed *comps);
 
 Color* world_color_at(World *w, Ray *r);
 
+int world_is_shadowed(World *w, Point *p);
+
 #define world_objects(world) ((world)->objects)
 
 #define world_light(world) ((world)->light)
-
 
 #endif

@@ -70,7 +70,7 @@ void lighting_with_the_eye_between_the_light_and_the_surface()
 	color_init(&expected, 1.9, 1.9, 1.9);
 	point_light_init(&light, &p, &c);
 
-	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
+	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv, 0);
 	if (tuple_equal(&expected, result))
 		return test_failed();
 	
@@ -94,7 +94,7 @@ void lighting_with_the_eye_between_light_and_surface_eye_offset_45_degrees()
 	color_init(&expected, 1, 1, 1);
 	point_light_init(&light, &p, &c);
 
-	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
+	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv, 0);
 	if (tuple_equal(&expected, result))
 		return test_failed();
 	
@@ -118,7 +118,7 @@ void lighting_with_eye_opposite_surface_light_offset_45_degrees()
 	color_init(&expected, 0.7364, 0.7364, 0.7364);
 	point_light_init(&light, &p, &c);
 
-	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
+	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv, 0);
 	if (tuple_equal(&expected, result))
 		return test_failed();
 	
@@ -142,7 +142,7 @@ void lighting_with_eye_in_the_path_of_the_reflection_vector()
 	color_init(&expected, 1.636385, 1.636385, 1.636385);
 	point_light_init(&light, &p, &c);
 
-	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
+	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv, 0);
 	if (tuple_equal(&expected, result))
 		return test_failed();
 	
@@ -166,12 +166,46 @@ void lighting_with_the_light_behind_the_surface()
 	color_init(&expected, 0.1, 0.1, 0.1);
 	point_light_init(&light, &p, &c);
 
-	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv);
+	Color *result = material_lighting(data->m, &light, data->position, &eyev, &normalv, 0);
 	if (tuple_equal(&expected, result))
 		return test_failed();
 	
 	test_passed();
 }
+
+
+void lighting_with_the_surface_in_shadow()
+{
+	SetupData *data = setup();
+
+	Vector eyev;
+	vector_init(&eyev, 0, 0, -1);
+
+	Vector normalv;
+	vector_init(&normalv, 0, 0, -1);
+
+	Point light_point;
+	point_init(&light_point, 0, 0, -10);
+
+	Color light_color;
+	color_init(&light_color, 1, 1, 1);
+
+	PointLight light;
+	point_light_init(&light, &light_point, &light_color);
+
+	int in_shadow = 1;
+
+	Color *result = material_lighting(data->m, &light, data->position,
+									  &eyev, &normalv, in_shadow);
+	Color expected;
+	color_init(&expected, 0.1, 0.1, 0.1);
+
+	if (color_equal(&expected, result))
+		return test_failed();
+	
+	test_passed();
+}
+
 
 int main()
 {
@@ -182,6 +216,7 @@ int main()
 	lighting_with_eye_opposite_surface_light_offset_45_degrees();
 	lighting_with_eye_in_the_path_of_the_reflection_vector();
 	lighting_with_the_light_behind_the_surface();
+	lighting_with_the_surface_in_shadow();
 	test_results();
 	return 0;
 }

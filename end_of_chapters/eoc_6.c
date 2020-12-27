@@ -71,7 +71,7 @@ int main()
 				sphere_normal_at(&normal, hit->object, &point);
 				tuple_neg(&eye, r.direction);
 
-				Color *color = material_lighting(hit->object->material, &light, &point, &eye, &normal);
+				Color *color = material_lighting(hit->object->material, &light, &point, &eye, &normal, 0);
 				write_pixel(&canvas, x, y, color);
 			}
 		}
