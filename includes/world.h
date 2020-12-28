@@ -66,7 +66,13 @@ Color* world_shade_hit(World *w, PreComputed *comps);
 
 Color* world_color_at(World *w, Ray *r);
 
-int world_is_shadowed(World *w, Point *p);
+/* NOTE: This is different from the book. The math included in the book
+does not help in solving the issue. I've attempted to switch the data type
+from floats to doubles, but it seem to increase the acne instead. It seems
+to be greatly affected by the epsilon as well so I made slight changes to
+fix the issue. The only way I can fix the issue is to pass in the shape
+to NOT check to complete avoid the self shadowing */
+int world_is_shadowed(World *w, Point *p, Sphere *shape);
 
 #define world_objects(world) ((world)->objects)
 

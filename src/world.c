@@ -134,7 +134,7 @@ IntersectGroup* world_intersect(World *w, Ray *r)
 Color*
 world_shade_hit(World *w, PreComputed *comps)
 {
-    int in_shadow = world_is_shadowed(w, comps->over_point);
+    int in_shadow = world_is_shadowed(w, comps->over_point, comps->object);
     return material_lighting(comps->object->material,
                              w->light,
                              comps->over_point, comps->eyev, comps->normalv,
@@ -159,7 +159,7 @@ world_color_at(World *w, Ray *r)
 }
 
 
-int world_is_shadowed(World *w, Point *p)
+int world_is_shadowed(World *w, Point *p, Sphere *shape)
 {
     Vector v;
     vector_sub(&v, w->light->position, p);
@@ -174,6 +174,27 @@ int world_is_shadowed(World *w, Point *p)
 
     IntersectGroup *intersections = world_intersect(w, &r);
 
-    Intersect *h = intersect_group_hit(intersections);
-    return h != NULL && h->t < distance ? 1 : 0;
+    IntersectNode *node = intersections->front;
+    Intersect *h;
+    for(; node != NULL; node = node->next)
+    {
+        h = node->element;
+        if (h->t > 0 && shape == NULL)
+            break;
+        /* This checks is to prevent self shadowing */
+        if (h->t > 0 && shape != NULL && h->object->ID != shape->ID)
+            break;
+    }
+
+    if (node == NULL)
+        return 0;
+    
+    // TODO: Mostly likely this check is completely unnecessary
+    int result;
+    if (shape)
+        result = h != 0 && h->t < distance && h->object->ID != shape->ID;
+    else
+        result = h != 0 && h->t < distance;
+    
+    return result;
 }

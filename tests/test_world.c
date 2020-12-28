@@ -252,7 +252,7 @@ void there_is_no_shadow_when_nothing_is_collinear_with_point_and_light()
     Point p;
     point_init(&p, 0, 10, 0);
 
-    int result = world_is_shadowed(&w, &p);
+    int result = world_is_shadowed(&w, &p, 0);
     if (result)
         return test_failed();
     
@@ -268,7 +268,7 @@ void the_shadow_when_an_object_is_between_the_point_and_the_light()
     Point p;
     point_init(&p, 10, -10, 10);
 
-    int result = world_is_shadowed(&w, &p);
+    int result = world_is_shadowed(&w, &p, 0);
     if (!result)
         return test_failed();
     
@@ -284,7 +284,7 @@ void there_is_no_shadow_when_an_object_is_behind_the_light()
     Point p;
     point_init(&p, -20, 20, -20);
 
-    int result = world_is_shadowed(&w, &p);
+    int result = world_is_shadowed(&w, &p, 0);
     if (result)
         return test_failed();
     
@@ -300,7 +300,7 @@ void there_is_no_shadow_when_an_object_is_behind_the_point()
     Point p;
     point_init(&p, -2, 2, -2);
 
-    int result = world_is_shadowed(&w, &p);
+    int result = world_is_shadowed(&w, &p, 0);
     if (result)
         return test_failed();
     

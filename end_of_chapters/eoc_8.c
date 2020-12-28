@@ -107,7 +107,7 @@ int main()
     sphere_set_transform(&right, array_mem(right_transform));
 
     Color right_color;
-    color_init(&right_color, 0.1, 1, 0.5);
+    color_init(&right_color, 0.5, 1, 0.1);
     right.material->color = &right_color;
     right.material->diffuse = 0.7;
     right.material->specular = 0.3;
