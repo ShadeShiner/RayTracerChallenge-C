@@ -88,7 +88,7 @@ void intersect_node_init(IntersectNode *node, Intersect *intersect)
 
 
 /* Intersect */
-void intersect_init(Intersect *intersect, float t, Sphere *s)
+void intersect_init(Intersect *intersect, float t, Shape *s)
 {
 	intersect->t = t;
 	intersect->object = s;
@@ -112,7 +112,9 @@ PreComputed* precomputed_create(Intersect *intersection, Ray *ray)
 	/* precomputed some useful values */
 	ray_position(result->point, ray, intersection->t);
 	vector_neg(result->eyev, ray->direction);
-	sphere_normal_at(result->normalv, intersection->object, result->point);
+	// TODO: Need to make the Shape and Sphere "normal_at" functions
+	// NOTE: TEMP FIX
+	sphere_normal_at(result->normalv, (Sphere *)intersection->object->derived, result->point);
 
 	if (tuple_dot(result->normalv, result->eyev) < 0)
 	{

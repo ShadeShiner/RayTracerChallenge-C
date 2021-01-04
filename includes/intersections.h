@@ -2,7 +2,7 @@
 #define INTERSECTIONS_H
 
 /* Forward Delcaration to avoid circular dependency includes */
-typedef struct Sphere_ Sphere;
+typedef struct Shape_ Shape;
 typedef struct Ray_ Ray;
 typedef struct Tuple_ Point;
 typedef struct Tuple_ Vector;
@@ -23,7 +23,7 @@ struct IntersectGroup_
 typedef struct Intersect_
 {
 	float t;
-	Sphere *object;
+	Shape *object;
 } Intersect;
 
 
@@ -37,7 +37,7 @@ struct IntersectNode_
 struct PreComputed_
 {
 	float   t;
-	Sphere  *object;
+	Shape  *object;
 	Point   *point;
 	Vector  *eyev;
 	Vector  *normalv;
@@ -60,7 +60,7 @@ Intersect* intersect_group_hit(IntersectGroup *intersect_group);
 void intersect_node_init(IntersectNode *node, Intersect *intersect);
 
 /* Intersect */
-void intersect_init(Intersect *intersect, float t, Sphere *s);
+void intersect_init(Intersect *intersect, float t, Shape *s);
 
 /* PreComputed */
 PreComputed* precomputed_create(Intersect *intersection, Ray *ray);

@@ -3,7 +3,7 @@ CFLAGS=-Wall -I includes
 LIBS=-lm
 
 SRC_DIR=src
-SRCS=camera.c canvas.c intersections.c lights.c logger.c material.c matrix.c my_string.c ray.c sphere.c test_library.c tuple.c world.c
+SRCS=camera.c canvas.c intersections.c lights.c logger.c material.c matrix.c my_string.c ray.c shape.c sphere.c test_library.c tuple.c world.c
 OBJ_DIR=obj
 OBJS=$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 EXE=$(SRC:.c=)
@@ -35,19 +35,19 @@ test: build src $(TEST_EXE)
 eoc: build src $(EOC_EXE)
 
 $(TEST_EXE): $(BUILD_DIR)/%: $(OBJ_DIR)/%.o
-	$(CC) -g $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
+	$(CC) -g -O0 $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
 
 $(EOC_EXE): $(BUILD_DIR)/%: $(OBJ_DIR)/%.o
-	$(CC) -g $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
+	$(CC) -g -O0 $(CFLAGS) $(LIBS) $(OBJS) $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) -g $(CFLAGS) -c $< -o $@
+	$(CC) -g -O0 $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
-	$(CC) -g $(CFLAGS) -c $< -o $@
+	$(CC) -g -O0 $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(EOC_DIR)/%.c
-	$(CC) -g $(CFLAGS) -c $< -o $@
+	$(CC) -g -O0 $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean

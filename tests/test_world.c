@@ -32,15 +32,13 @@ void the_default_world()
 
     PointLight expected = { &p, &c };
 
-    Sphere s1;
-    sphere_init(&s1);
-    color_init(s1.material->color, 0.8, 1.0, 0.6);
-    s1.material->diffuse = 0.7;
-    s1.material->specular = 0.2;
+    Shape *s1 = sphere_create();
+    color_init(s1->material->color, 0.8, 1.0, 0.6);
+    s1->material->diffuse = 0.7;
+    s1->material->specular = 0.2;
 
-    Sphere s2;
-    sphere_init(&s2);
-    matrix_scaling(array_mem(s2.transform), 0.5, 0.5, 0.5);
+    Shape *s2 = sphere_create();
+    matrix_scaling(array_mem(s2->transform), 0.5, 0.5, 0.5);
 
     World w;
     world_default(&w);
@@ -109,7 +107,7 @@ void shading_an_intersection()
     Ray r;
     ray_init(&r, &p, &v);
 
-    Sphere *shape = world_get_object(&w, 0);
+    Shape *shape = world_get_object(&w, 0);
 
     Intersect i;
     intersect_init(&i, 4, shape);
@@ -149,7 +147,7 @@ void shading_an_intersection_from_the_inside()
     Ray r;
     ray_init(&r, &p, &v);
 
-    Sphere *shape = world_get_object(&w, 1);
+    Shape *shape = world_get_object(&w, 1);
 
     Intersect i;
     intersect_init(&i, 0.5, shape);
@@ -221,10 +219,10 @@ void the_color_with_an_intersection_behind_the_ray()
     World w;
     world_default(&w);
 
-    Sphere *outer = world_get_object(&w, 0);
+    Shape *outer = world_get_object(&w, 0);
     outer->material->ambient = 1;
 
-    Sphere *inner = world_get_object(&w, 1);
+    Shape *inner = world_get_object(&w, 1);
     inner->material->ambient = 1;
 
     Point p;

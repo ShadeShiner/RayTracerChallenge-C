@@ -8,12 +8,13 @@
 
 /* Forward Declarations */
 typedef struct Tuple_ Color;
+typedef struct Shape_ Shape;
 
 /* List type declaration */
 
 typedef struct ListNode_
 {
-    void *data;
+    Shape *data;
     struct ListNode_ *next;
 } ListNode;
 
@@ -22,16 +23,14 @@ typedef struct List_
     ListNode *head;
     ListNode *tail;
     int size;
-    int (*compare)(const void *data1, const void *data2);
 } List;
 
 /* List Interface */
-void list_init(List *list,
-               int (*compare)(const void *data1, const void *data2));
+void list_init(List *list);
 
-int list_add(List *list, ListNode *node, void *data);
+int list_add(List *list, ListNode *node, Shape *data);
 
-int list_contains(List *list, const void *data);
+int list_contains(List *list, Shape *data);
 
 #define list_head(list) ((list)->head)
 
@@ -54,11 +53,11 @@ void world_init(World *world);
 
 int world_default(World *world);
 
-int world_add_object(World *world, void *object);
+int world_add_object(World * world, Shape *shape);
 
-Sphere* world_get_object(World *world, unsigned int index);
+Shape* world_get_object(World *world, unsigned int index);
 
-int world_has_object(World *world, const void *object);
+int world_has_object(World *world, Shape *object);
 
 IntersectGroup* world_intersect(World *w, Ray *r);
 
@@ -72,7 +71,7 @@ from floats to doubles, but it seem to increase the acne instead. It seems
 to be greatly affected by the epsilon as well so I made slight changes to
 fix the issue. The only way I can fix the issue is to pass in the shape
 to NOT check to complete avoid the self shadowing */
-int world_is_shadowed(World *w, Point *p, Sphere *shape);
+int world_is_shadowed(World *w, Point *p, Shape *shape);
 
 #define world_objects(world) ((world)->objects)
 
