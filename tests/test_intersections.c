@@ -14,17 +14,17 @@ void an_intersection_encapsulates_t_and_object()
 
 	if (i.t != 3.5)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (i.object != s)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -42,23 +42,23 @@ void aggregating_intersections()
 
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (intersect_group_get(&xs, 0)->object != s)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (intersect_group_get(&xs, 1)->object != s)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -77,11 +77,11 @@ void the_hit_when_all_intersections_have_positive_t()
 	Intersect *result = intersect_group_hit(&xs);
 	if (result != &i1)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -100,11 +100,11 @@ void the_hit_when_some_intersections_have_negative_t()
 	Intersect *result = intersect_group_hit(&xs);
 	if (result != &i2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -123,11 +123,11 @@ void the_hit_when_all_intersection_have_negative_t()
 	Intersect *result = intersect_group_hit(&xs);
 	if (result != NULL)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -148,11 +148,11 @@ void the_hit_is_always_the_lowest_nonnegative_intersection()
 	Intersect *result = intersect_group_hit(&xs);
 	if (result != &i4)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -177,13 +177,13 @@ void precomputing_the_state_of_an_intersection()
 
 	if (float_equal(comps->t, i.t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (s->equal(comps->object, i.object))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
@@ -191,7 +191,7 @@ void precomputing_the_state_of_an_intersection()
 	point_init(&p_result, 0, 0, -1);
 	if (point_equal(comps->point, &p_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
@@ -199,7 +199,7 @@ void precomputing_the_state_of_an_intersection()
 	vector_init(&eye_result, 0, 0, -1);
 	if (vector_equal(comps->eyev, &eye_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
@@ -207,11 +207,11 @@ void precomputing_the_state_of_an_intersection()
 	vector_init(&normal_result, 0, 0, -1);
 	if (vector_equal(comps->normalv, &normal_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -235,11 +235,11 @@ void the_hit_when_an_intersection_occurs_on_the_outside()
 	PreComputed *comps = precomputed_create(&i, &r);
 	if (comps->inside != 0)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -266,7 +266,7 @@ void the_hit_when_an_intersection_occurs_on_the_inside()
 	point_init(&point_result, 0, 0, 1);
 	if (point_equal(comps->point, &point_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 
@@ -274,13 +274,13 @@ void the_hit_when_an_intersection_occurs_on_the_inside()
 	vector_init(&eye_result, 0, 0, -1);
 	if (vector_equal(comps->eyev, &eye_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (comps->inside == 0)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
@@ -288,11 +288,11 @@ void the_hit_when_an_intersection_occurs_on_the_inside()
 	vector_init(&normal_result, 0, 0, -1);
 	if (vector_equal(comps->normalv, &normal_result))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -321,17 +321,17 @@ void the_hit_should_offset_the_point()
 	PreComputed *comps = precomputed_create(&i, &r);
 	if (comps->over_point->z >= -EPSILON/2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (comps->point->z <= comps->over_point->z)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 

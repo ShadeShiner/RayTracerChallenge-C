@@ -17,6 +17,7 @@ unsigned int sphere_init(Sphere *sphere)
 	/* Create the base and have the base point to the child */
 	sphere->base = malloc(sizeof(Shape));
 	unsigned int result = shape_init(sphere->base);
+	sphere->base->derived = sphere;
 
 	/* Function Pointers */
 	sphere->base->release = sphere_release;
@@ -36,22 +37,28 @@ Shape* sphere_create()
 
 
 /* Destructors */
-void sphere_release(Shape *shape)
+void sphere_release(Shape **shape)
 {
 	// Call the base (super) object's release function
 	shape_release(shape);
 }
 
 
-void sphere_destroy(Shape *shape)
+void sphere_destroy(Shape **shape)
 {
+	// Retrieve the derived Sphere object
+	Sphere *sphere = (Sphere *)((*shape)->derived);
+
 	// Call the base (super) object's destroy fucntion
 	shape_destroy(shape);
+
+	// Finish the subclass after super is destroyed
+	free(sphere);
 }
 
 
 /* Functions */
-void sphere_intersect(Shape *sphere, IntersectGroup *intersect_group, Ray *local_ray)
+void sphere_intersect(Shape *self, IntersectGroup *intersect_group, Ray *local_ray)
 {
 	/*
 	The vector from the sphere's center, to the ray origin
@@ -75,8 +82,8 @@ void sphere_intersect(Shape *sphere, IntersectGroup *intersect_group, Ray *local
 
 	Intersect *i1 = malloc(sizeof(Intersect));
 	Intersect *i2 = malloc(sizeof(Intersect));
-	intersect_init(i1, t1, sphere);
-	intersect_init(i2, t2, sphere);
+	intersect_init(i1, t1, self);
+	intersect_init(i2, t2, self);
 	intersect_group_add(intersect_group, 2, i1, i2);
 }
 

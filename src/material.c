@@ -58,6 +58,7 @@ material_destroy(Material *material)
 {
 	material_release(material);
 	free(material);
+	material = 0;
 }
 
 /* Functions */

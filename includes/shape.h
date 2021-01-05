@@ -19,8 +19,8 @@ struct Shape_
     Material     *material;
 
     /* Function Pointers */
-    void (*release)(Shape *shape);
-    void (*destroy)(Shape *shape);
+    void (*release)(Shape **shape);
+    void (*destroy)(Shape **shape);
 
     int  (*equal)(Shape *s1, Shape*s2);
 
@@ -37,13 +37,13 @@ unsigned int shape_init(Shape *shape);
 Shape* shape_create();
 
 /* Destructors */
-void shape_release(Shape *shape);
-void shape_destroy(Shape *shape);
+void shape_release(Shape **shape);
+void shape_destroy(Shape **shape);
 
 /* Functions */
 int  shape_equal(Shape *s1, Shape *s2);
 void shape_set_transform(Shape *shape, Matrix *transform);
 void convert_world_to_local_space(Shape *shape, Ray *local, Ray *world);
-int shape_intersect(Shape *shape, IntersectGroup *intersections, Ray *world_ray);
+int shape_intersect(Shape *self, IntersectGroup *intersections, Ray *world_ray);
 
 #endif

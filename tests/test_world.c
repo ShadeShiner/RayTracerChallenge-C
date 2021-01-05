@@ -47,11 +47,11 @@ void the_default_world()
     if (result)
         return test_failed();
     
-    result = world_has_object(&w, (void *)&s1);
+    result = world_has_object(&w, s1);
     if (result != 0)
         return test_failed();
     
-    result = world_has_object(&w, (void *)&s2);
+    result = world_has_object(&w, s2);
     if (result != 0)
         return test_failed();
     

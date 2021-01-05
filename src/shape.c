@@ -44,18 +44,18 @@ Shape* shape_create()
 
 
 /* Destructors */
-void shape_release(Shape *shape)
+void shape_release(Shape **shape)
 {
-    material_destroy(shape->material);
-    memset(shape, 0, sizeof(Shape));
+    material_destroy((*shape)->material);
+    memset((*shape), 0, sizeof(Shape));
 }
 
 
-void shape_destroy(Shape *shape)
+void shape_destroy(Shape **shape)
 {
     shape_release(shape);
-    free(shape);
-    shape = 0;
+    free(*shape);
+    *shape = 0;
 }
 
 
@@ -90,18 +90,25 @@ void convert_world_to_local_space(Shape *shape, Ray *local, Ray *world)
 }
 
 
-int shape_intersect(Shape *shape, IntersectGroup *intersections, Ray *world_ray)
+int shape_intersect(Shape *self, IntersectGroup *intersections, Ray *world_ray)
 {
     /* Convert a ray in world space to local space first */
+    Point p;
+    point_init(&p, 0, 0, 0);
+
+    Vector v;
+    vector_init(&v, 0, 0, 0);
+
     Ray local_ray;
-    shape->world_to_local(shape, &local_ray, world_ray);
+    ray_init(&local_ray, &p, &v);
+    self->world_to_local(self, &local_ray, world_ray);
 
     /* Checks to see if the shape object has 
     implemented a local ray intersection function */
-    if (!shape->local_intersect) return -1;
+    if (!self->local_intersect) return -1;
 
     /* Call the function to see of the now converted
     local space ray intersect with the shape object */
-    shape->local_intersect(shape, intersections, &local_ray);
+    self->local_intersect(self, intersections, &local_ray);
     return 0;
 }

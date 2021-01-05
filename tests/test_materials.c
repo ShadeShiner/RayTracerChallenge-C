@@ -27,6 +27,13 @@ SetupData* setup()
 
 /* Test Cases */
 
+void memory_check()
+{
+	Material *m = material_default_create();
+	material_destroy(m);
+	test_passed();
+}
+
 void the_default_material()
 {
 	Material m;
@@ -210,6 +217,8 @@ void lighting_with_the_surface_in_shadow()
 int main()
 {
 	test_header();
+	memory_check();
+	/*
 	the_default_material();
 	lighting_with_the_eye_between_the_light_and_the_surface();
 	lighting_with_the_eye_between_light_and_surface_eye_offset_45_degrees();
@@ -217,6 +226,7 @@ int main()
 	lighting_with_eye_in_the_path_of_the_reflection_vector();
 	lighting_with_the_light_behind_the_surface();
 	lighting_with_the_surface_in_shadow();
+	*/
 	test_results();
 	return 0;
 }

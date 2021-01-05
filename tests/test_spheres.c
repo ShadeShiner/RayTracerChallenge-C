@@ -6,6 +6,23 @@
 #include <tuple.h>
 #include <intersections.h>
 
+
+void shape_memory_leak()
+{
+	Shape *s = shape_create();
+	s->destroy(&s);
+	return test_passed();
+}
+
+
+void sphere_memory_leak()
+{
+	Shape *shape = sphere_create();
+	shape->destroy(&shape);
+	return test_passed();
+}
+
+
 void a_ray_intersects_a_sphere_at_two_points()
 {
 	Ray r;
@@ -25,23 +42,23 @@ void a_ray_intersects_a_sphere_at_two_points()
 
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(4.0, intersect_group_get(&xs, 0)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(6.0, intersect_group_get(&xs, 1)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -64,23 +81,23 @@ void a_ray_intersects_a_sphere_at_a_tangent()
 	
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(5.0, intersect_group_get(&xs, 0)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(5.0, intersect_group_get(&xs, 1)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -103,11 +120,11 @@ void a_ray_misses_a_sphere()
 
 	if (xs.count != 0)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -130,23 +147,23 @@ void a_ray_originates_inside_a_sphere()
 
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(-1.0, intersect_group_get(&xs, 0)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(1.0, intersect_group_get(&xs, 1)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -169,23 +186,23 @@ void a_sphere_is_behind_a_ray()
 
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(-6.0, intersect_group_get(&xs, 0)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(-4.0, intersect_group_get(&xs, 1)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -207,23 +224,23 @@ void intersect_sets_the_object_on_the_intersection()
 
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (intersect_group_get(&xs, 0)->object != s)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 
 	if (intersect_group_get(&xs, 1)->object != s)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -236,11 +253,11 @@ void a_spheres_default_transformation()
 
 	if (matrix_equal(array_mem(identity), array_mem(s->transform), 4))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -255,11 +272,11 @@ void changing_a_spheres_transformation()
 
 	if (matrix_equal(array_mem(t), array_mem(s->transform), 4))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed()
 }
 
@@ -286,23 +303,23 @@ void intersecting_a_scaled_sphere_with_a_ray()
 	
 	if (xs.count != 2)
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
 	if (float_equal(3, intersect_group_get(&xs, 0)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 
 	if (float_equal(7, intersect_group_get(&xs, 1)->t))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -319,11 +336,11 @@ void the_normal_on_a_sphere_at_a_point_on_the_x_axis()
 	sphere_normal_at(&n, (Sphere *)s->derived, &p);
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -340,11 +357,11 @@ void the_normal_on_a_sphere_at_a_point_on_the_y_axis()
 	sphere_normal_at(&n, (Sphere *)s->derived, &p);
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -361,11 +378,11 @@ void the_normal_on_a_sphere_at_a_point_on_the_z_axis()
 	sphere_normal_at(&n, (Sphere *)s->derived, &p);
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -382,11 +399,11 @@ void the_normal_on_a_sphere_at_a_nonaxial_point()
 	sphere_normal_at(&n, (Sphere *)s->derived, &p);
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -404,11 +421,11 @@ void the_normal_is_a_normalized_vector()
 
 	if (tuple_equal(&result, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -430,11 +447,11 @@ void computing_the_normal_on_a_translated_sphere()
 
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -457,11 +474,11 @@ void computing_the_normal_on_a_transformed_sphere()
 	
 	if (tuple_equal(&expected, &n))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -475,30 +492,29 @@ void a_sphere_has_a_default_material()
 
 	if (material_equal(&expected, m))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
 void a_sphere_may_be_assigned_a_material()
 {
 	Shape *s = sphere_create();
-	Material m;
+	Material *m = material_default_create();
 
-	material_default_init(&m);
-	m.ambient = 1;
-
-	s->material = &m;
-	if (material_equal(s->material, &m))
+	m->ambient = 1;
+	material_destroy(s->material);
+	s->material = m;
+	if (material_equal(s->material, m))
 	{
-		s->destroy(s);
+		s->destroy(&s);
 		return test_failed();
 	}
 	
-	s->destroy(s);
+	s->destroy(&s);
 	test_passed();
 }
 
@@ -506,7 +522,6 @@ int main()
 {
 	test_header();
 	a_ray_intersects_a_sphere_at_two_points();
-	/*
 	a_ray_intersects_a_sphere_at_a_tangent();
 	a_ray_misses_a_sphere();
 	a_ray_originates_inside_a_sphere();
@@ -524,7 +539,6 @@ int main()
 	computing_the_normal_on_a_transformed_sphere();
 	a_sphere_has_a_default_material();
 	a_sphere_may_be_assigned_a_material();
-	*/
 	test_results();
 	return 0;
 }

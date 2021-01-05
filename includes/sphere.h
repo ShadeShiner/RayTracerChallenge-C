@@ -20,11 +20,11 @@ unsigned int sphere_init(Sphere *sphere);
 Shape* sphere_create();
 
 /* Destructors */
-void sphere_release(Shape *shape);
-void sphere_destroy(Shape *shape);
+void sphere_release(Shape **shape);
+void sphere_destroy(Shape **shape);
 
 /* Functions */
-void sphere_intersect(Shape *sphere, IntersectGroup *intersect_group, Ray *local_ray);
+void sphere_intersect(Shape *self, IntersectGroup *intersect_group, Ray *local_ray);
 void sphere_normal_at(Vector *world_normal, Sphere *sphere, Point *world_point);
 
 #endif
